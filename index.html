@@ -47,7 +47,9 @@
         .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         /* --- Portfolio View Styles --- */
-        .chart-container { position: relative; width: 100%; height: 420px; }
+        /* Updated chart container: Full height on desktop, fixed height on mobile */
+        .chart-container { position: relative; width: 100%; height: 100%; } 
+        
         .intern-card {
             border-left: 4px solid #2563eb;
             background: linear-gradient(to right, #eff6ff, #ffffff);
@@ -89,7 +91,11 @@
         .doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #e2e8f0; }
         .doc-section:last-child { border-bottom: none; }
         .tag-pill { display: inline-flex; align-items: center; padding: 0.15rem 0.65rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; margin-right: 0.5rem; }
-        .nav-item.active { background-color: #eff6ff; color: #2563eb; border-right: 3px solid #2563eb; font-weight: 600; }
+        
+        /* Revised Nav Item for Responsive Sidebar */
+        .nav-item { border-left: 3px solid transparent; transition: all 0.2s; }
+        .nav-item:hover { background-color: #fff; }
+        .nav-item.active { background-color: #eff6ff; color: #2563eb; border-left-color: #2563eb; font-weight: 600; }
         
         .script-q { color: #1e293b; font-weight: 700; margin-top: 1.5rem; font-size: 0.95rem; line-height: 1.5; }
         .script-note { font-size: 0.85rem; color: #64748b; font-style: italic; margin-top: 0.25rem; margin-bottom: 0.5rem; }
@@ -141,8 +147,8 @@
 
     <!-- Header -->
     <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center h-auto md:h-20 py-3 md:py-0">
+        <div class="max-w-[98%] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center h-auto md:h-24 py-3 md:py-0">
                 <!-- Left: Profile -->
                 <div class="flex items-center w-full md:w-auto mb-3 md:mb-0">
                     <div class="h-12 w-12 bg-primary text-white rounded-xl flex items-center justify-center font-bold text-xl mr-4 shadow-lg bg-gradient-to-br from-gray-800 to-gray-900">赖</div>
@@ -163,7 +169,7 @@
                 </div>
                 
                 <!-- Right: View Switcher Tabs -->
-                <div class="flex space-x-8 text-sm font-medium w-full md:w-auto border-t md:border-t-0 border-gray-100 pt-2 md:pt-0">
+                <div class="flex space-x-8 text-sm font-medium w-full md:w-auto border-t md:border-t-0 border-gray-100 pt-2 md:pt-0 mt-2 md:mt-0">
                     <button onclick="switchGlobalView('portfolio')" id="tab-portfolio" class="tab-btn active flex items-center justify-center md:justify-start w-1/2 md:w-auto">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                         产品/运营洞察
@@ -177,7 +183,7 @@
         </div>
     </header>
 
-    <main class="flex-grow max-w-7xl mx-auto w-full">
+    <main class="flex-grow max-w-[98%] mx-auto w-full">
 
         <!-- ================= VIEW 1: GAME PORTFOLIO ================= -->
         <div id="view-portfolio" class="view-section active px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -220,11 +226,12 @@
             </section>
 
             <!-- 2. Dashboard Area -->
-            <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 h-auto lg:h-[1000px]">
+            <!-- FIX: Mobile = h-auto (natural flow); Desktop = fixed screen ratio -->
+            <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 h-auto lg:h-[calc(100vh-140px)] lg:min-h-[700px]">
                 
                 <!-- Left: Bubble Chart & Selector -->
-                <div class="lg:col-span-7 flex flex-col h-full bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-200">
-                    <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <div class="lg:col-span-7 flex flex-col h-auto lg:h-full bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-200">
+                    <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 flex-shrink-0">
                         <div>
                             <h3 class="text-base font-bold text-primary">全品类游戏阅历矩阵</h3>
                             <p class="text-[10px] text-gray-400 mt-1">Bubble Size = 投入时长权重</p>
@@ -232,27 +239,31 @@
                         <span class="text-[10px] text-gray-500 border px-2 py-1 rounded bg-white font-medium shadow-sm">X: 机制深度 | Y: 叙事浓度</span>
                     </div>
 
-                    <!-- Game Selector (Moved Up) -->
-                    <div class="flex-grow bg-white p-6 flex flex-col overflow-hidden border-b border-gray-100">
-                        <div class="flex items-center mb-4">
+                    <!-- Game Selector (Optimized Layout) -->
+                    <!-- FIX: Removed lg:max-h constraint to allow full visibility on desktop. Mobile retains max-h for compactness. -->
+                    <div class="bg-white p-4 flex flex-col overflow-hidden border-b border-gray-100 max-h-[300px] lg:max-h-none lg:h-auto flex-shrink-0">
+                        <div class="flex items-center mb-3 flex-shrink-0">
                              <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                             <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider">游戏列表快速选择 (Quick Select)</h4>
                         </div>
-                        <div id="gameSelectorContainer" class="flex-grow overflow-y-auto custom-scroll pr-2 space-y-4">
+                        <!-- FIX: Removed vertical scroll on desktop (lg:overflow-visible) to show all content immediately -->
+                        <div id="gameSelectorContainer" class="flex-grow overflow-y-auto lg:overflow-visible custom-scroll pr-2 space-y-3">
                             <!-- JS injected -->
                         </div>
                     </div>
                     
-                    <!-- Bubble Chart (Moved Down) -->
-                    <div class="p-4 relative bg-white">
-                        <div class="chart-container" style="height: 380px;">
+                    <!-- Bubble Chart -->
+                    <!-- FIX: Added lg:min-h-0 to prevent flex overflow issues, ensuring chart stays within container -->
+                    <div class="p-3 relative bg-white h-[350px] lg:h-auto lg:flex-grow lg:min-h-0">
+                        <div class="chart-container w-full h-full">
                             <canvas id="gameMatrixChart"></canvas>
                         </div>
                     </div>
                 </div>
 
                 <!-- Right: Detailed Insight Panel -->
-                <div class="lg:col-span-5 bg-white rounded-2xl shadow-xl border border-gray-200 flex flex-col h-[1000px] overflow-hidden relative">
+                <!-- Added id="detail-panel-container" for scroll targeting -->
+                <div id="detail-panel-container" class="lg:col-span-5 bg-white rounded-2xl shadow-xl border border-gray-200 flex flex-col h-[600px] lg:h-full overflow-hidden relative">
                     
                     <div class="p-5 border-b border-gray-100 bg-white sticky top-0 z-10 flex justify-between items-center">
                         <h3 class="text-base font-bold text-primary flex items-center">
@@ -266,7 +277,8 @@
                         <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mb-4 text-gray-400">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
                         </div>
-                        <p class="text-sm font-medium">请点击左侧列表查看详细分析</p>
+                        <!-- FIX: Updated text for generic context -->
+                        <p class="text-sm font-medium">请在列表中选择游戏查看详细分析</p>
                         <p class="text-xs mt-2 text-gray-400">包含：商业化拆解、核心循环分析、运营复盘</p>
                     </div>
 
@@ -355,30 +367,32 @@
 
         <!-- ================= VIEW 2: USER RESEARCH ================= -->
         <div id="view-research" class="view-section px-4 py-6">
+            <!-- Mobile Optimization: Changed flex-col to better handle sidebar flow on mobile -->
             <div class="flex flex-col lg:flex-row bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden min-h-[900px]">
                 
-                <!-- Research Sidebar -->
+                <!-- Research Sidebar: Horizontal scroll on mobile -->
                 <aside class="w-full lg:w-72 bg-gray-50 border-b lg:border-b-0 lg:border-r border-gray-200 flex flex-col flex-shrink-0">
                     <div class="p-6 border-b border-gray-200">
                         <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wider">研究课题 (Projects)</h2>
                         <p class="text-[10px] text-gray-400 mt-1">基于真实业务场景模拟</p>
                     </div>
-                    <nav class="flex-grow overflow-y-auto p-3 space-y-2">
-                        <button onclick="loadProject('genshin')" id="btn-genshin" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-white transition-all active shadow-sm border border-transparent">
+                    <!-- Added horizontal scroll utility classes for mobile -->
+                    <nav class="flex lg:flex-col overflow-x-auto lg:overflow-y-auto p-3 space-x-2 lg:space-x-0 lg:space-y-2 whitespace-nowrap lg:whitespace-normal">
+                        <button onclick="loadProject('genshin')" id="btn-genshin" class="nav-item flex-shrink-0 w-64 lg:w-full text-left px-4 py-3 rounded-lg border border-transparent shadow-sm bg-white active">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-bold text-sm text-gray-800">原神：长草期流失</span>
                                 <span class="w-2 h-2 rounded-full bg-red-500 shadow-sm"></span>
                             </div>
                             <p class="text-[10px] text-gray-500 truncate">高等级玩家活跃度下降归因</p>
                         </button>
-                        <button onclick="loadProject('hok')" id="btn-hok" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-white transition-all shadow-sm border border-transparent">
+                        <button onclick="loadProject('hok')" id="btn-hok" class="nav-item flex-shrink-0 w-64 lg:w-full text-left px-4 py-3 rounded-lg hover:bg-white transition-all shadow-sm border border-transparent">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-bold text-sm text-gray-800">王者：排位挫败感</span>
                                 <span class="w-2 h-2 rounded-full bg-orange-500 shadow-sm"></span>
                             </div>
                             <p class="text-[10px] text-gray-500 truncate">ELO机制下的情绪曲线研究</p>
                         </button>
-                        <button onclick="loadProject('wuwa')" id="btn-wuwa" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-white transition-all shadow-sm border border-transparent">
+                        <button onclick="loadProject('wuwa')" id="btn-wuwa" class="nav-item flex-shrink-0 w-64 lg:w-full text-left px-4 py-3 rounded-lg hover:bg-white transition-all shadow-sm border border-transparent">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-bold text-sm text-gray-800">鸣潮：竞品迁徙</span>
                                 <span class="w-2 h-2 rounded-full bg-blue-500 shadow-sm"></span>
@@ -386,7 +400,7 @@
                             <p class="text-[10px] text-gray-500 truncate">原神玩家尝试竞品的动机</p>
                         </button>
                     </nav>
-                    <div class="p-5 border-t border-gray-200 text-[10px] text-gray-400">
+                    <div class="hidden lg:block p-5 border-t border-gray-200 text-[10px] text-gray-400">
                         <p class="font-bold mb-2 text-gray-500">METHODOLOGY STACK:</p>
                         <ul class="list-disc pl-3 space-y-1">
                             <li>定性：深度访谈 (IDI)</li>
@@ -421,6 +435,7 @@
 
         // ================= PART 1: GAME DATA & LOGIC =================
         let currentGameName = ""; 
+        let matrixChart = null; // Store chart instance
 
         const gamesData = [
             { 
@@ -431,7 +446,7 @@
                 dataMetrics: '全球首年移动端营收超20亿美元（SensorTower数据）；3.0须弥版本更新后DAU重回巅峰；钟离卡池事件曾导致国服iOS畅销榜排名短暂波动。',
                 caseTitle: '危机公关：钟离事件与“服务型游戏”的契约重构',
                 caseContent: '1.1版本钟离强度的翻车引发了“开发票”级的舆情风暴。这次事件的本质并非单纯的数值失衡，而是打破了二游玩家的隐形契约——“高氪金投入（单价高）应对应高保值率与符合人设的强度”。玩家认为“岩王帝君”的背景设定与实战表现割裂（Ludonarrative Dissonance）。官方后续通过直接修改技能机制与增加岩队共鸣，不仅平息了怒火，更成功建立了“神必抽”的强力心智，将一场信任危机转化为后续雷神、草神卡池的高ARPU驱动力。',
-                pmCoreLoop: '探索大世界获取资源 -> 抽取/培养角色 -> 验证角色强度（深渊/大世界战斗） -> 情感投射（剧情/语音）。核心驱动力是“为爱付费”。',
+                pmCoreLoop: '探索大世界获取资源 -> 抽卡/养成 -> 验证强度 -> 情感投射。核心驱动力是“为爱付费”。',
                 pmMonetization: '混合变现：角色/武器扭蛋（Gacha）+ 纪行（Battle Pass）+ 月卡（Subscription）。其中“命座”机制将单个角色的付费深度拉升至数万元。',
                 competitors: [
                     { name: '鸣潮', point: '竞品放弃了“合家欢”策略，专注于“战斗手感”垂直切面，引入声骸与弹刀机制，承接对原神战斗乏味的进阶玩家。' },
@@ -928,13 +943,47 @@
             loadProject('genshin'); // Init default research project
         });
 
+        // Background plugin for quadrants
+        const quadrantPlugin = {
+            id: 'quadrants',
+            beforeDraw: (chart, args, options) => {
+                const {ctx, chartArea: {left, top, right, bottom}, scales: {x, y}} = chart;
+                const midX = x.getPixelForValue(50);
+                const midY = y.getPixelForValue(50);
+
+                ctx.save();
+                ctx.font = 'bold 10px sans-serif';
+                ctx.fillStyle = 'rgba(100, 116, 139, 0.1)';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+
+                // Draw labels
+                ctx.fillText('硬核/叙事向 (Hardcore Narrative)', (right + midX) / 2, (top + midY) / 2);
+                ctx.fillText('大众/休闲向 (Casual)', (left + midX) / 2, (bottom + midY) / 2);
+                ctx.fillText('硬核/玩法向 (Hardcore Gameplay)', (right + midX) / 2, (bottom + midY) / 2);
+                ctx.fillText('轻度/内容向 (Light Content)', (left + midX) / 2, (top + midY) / 2);
+
+                // Draw lines
+                ctx.strokeStyle = 'rgba(226, 232, 240, 0.8)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(midX, top);
+                ctx.lineTo(midX, bottom);
+                ctx.moveTo(left, midY);
+                ctx.lineTo(right, midY);
+                ctx.stroke();
+                ctx.restore();
+            }
+        };
+
         function initGameMatrix() {
             const ctx = document.getElementById('gameMatrixChart').getContext('2d');
             const dataPoints = gamesData.map(game => ({
                 x: game.depth, y: game.narrative, r: Math.max(5, Math.min(game.hours / 1.5, 30)), gameInfo: game
             }));
 
-            new Chart(ctx, {
+            // Store chart instance in global variable
+            matrixChart = new Chart(ctx, {
                 type: 'bubble',
                 data: {
                     datasets: [{
@@ -952,7 +1001,8 @@
                              if (cat === 'Comp') return 'rgba(5, 150, 105, 1)';
                              return 'rgba(217, 119, 6, 1)';
                         },
-                        borderWidth: 1.5
+                        borderWidth: 1.5,
+                        hoverBorderWidth: 3
                     }]
                 },
                 options: {
@@ -960,12 +1010,13 @@
                     maintainAspectRatio: false,
                     layout: { padding: 15 },
                     scales: {
-                        x: { title: { display: true, text: '玩法机制深度 (Depth) →', color: '#94a3b8', font: {size: 11} }, min: 0, max: 100 },
-                        y: { title: { display: true, text: '叙事/社交浓度 (Narrative) →', color: '#94a3b8', font: {size: 11} }, min: 0, max: 100 }
+                        x: { title: { display: true, text: '玩法机制深度 (Depth) →', color: '#94a3b8', font: {size: 11} }, min: 0, max: 100, grid: { display: false } },
+                        y: { title: { display: true, text: '叙事/社交浓度 (Narrative) →', color: '#94a3b8', font: {size: 11} }, min: 0, max: 100, grid: { display: false } }
                     },
                     plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(context) { return context.raw.gameInfo.name; } } } },
                     onClick: (e, elements) => { if (elements.length > 0) updateDetailPanel(gamesData[elements[0].index]); }
-                }
+                },
+                plugins: [quadrantPlugin]
             });
         }
 
@@ -993,7 +1044,23 @@
                     btn.className = `game-tag-btn px-3 py-1 rounded-full border bg-white text-gray-600 hover:${config.bg} hover:${config.color} whitespace-nowrap`;
                     btn.textContent = game.name;
                     btn.dataset.gameId = game.id; 
-                    btn.onclick = () => { updateDetailPanel(game); updateActiveButtonState(btn, key); };
+                    btn.onclick = () => { 
+                        updateDetailPanel(game); 
+                        updateActiveButtonState(btn, key);
+                        
+                        // Interaction: Highlight bubble on chart
+                        const index = gamesData.indexOf(game);
+                        if (matrixChart && index !== -1) {
+                            const meta = matrixChart.getDatasetMeta(0);
+                            const rect = matrixChart.canvas.getBoundingClientRect();
+                            const point = meta.data[index];
+                            
+                            // Emulate hover effect
+                            matrixChart.setActiveElements([{datasetIndex: 0, index: index}]);
+                            matrixChart.tooltip.setActiveElements([{datasetIndex: 0, index: index}], {x: point.x, y: point.y});
+                            matrixChart.update();
+                        }
+                    };
                     btnGrid.appendChild(btn);
                 });
                 groupSection.appendChild(btnGrid);
@@ -1060,6 +1127,17 @@
 
             const btn = document.querySelector(`button[data-game-id="${game.id}"]`);
             if(btn) updateActiveButtonState(btn, game.category);
+
+            // 移动端体验优化：点击后自动滚动到详情面板
+            if (window.innerWidth < 1024) { // lg breakpoint
+                const panel = document.getElementById('detail-panel-container');
+                if (panel) {
+                    // 稍微延迟一点以确保DOM更新，提升平滑度
+                    setTimeout(() => {
+                        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                }
+            }
         }
     </script>
 </body>
