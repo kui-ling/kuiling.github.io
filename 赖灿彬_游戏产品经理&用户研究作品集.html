@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赖灿彬 | 游戏产品经理 & 用户研究综合作品集</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: '#f8fafc',
+                        primary: '#0f172a',
+                        comp: '#059669', 
+                        anime: '#7c3aed', 
+                        casual: '#d97706',
+                        intern: '#2563eb', // Professional Blue
+                        analysis: '#0ea5e9',
+                        data: '#be185d', 
+                        opt: '#b45309',
+                        brand: '#2563eb', 
+                        citation: '#475569' 
+                    },
+                    fontFamily: {
+                        sans: ['Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', 'Arial', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f8fafc; color: #334155; -webkit-font-smoothing: antialiased; }
+        
+        /* --- Common Styles --- */
+        .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* --- Portfolio View Styles --- */
+        .chart-container { position: relative; width: 100%; height: 420px; }
+        .intern-card {
+            border-left: 4px solid #2563eb;
+            background: linear-gradient(to right, #eff6ff, #ffffff);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .intern-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px -4px rgba(37, 99, 235, 0.1); }
+        
+        .analysis-card { background-color: #f0f9ff; border: 1px solid #bae6fd; border-radius: 0.5rem; }
+
+        .detail-label { 
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 800; color: #64748b; 
+            margin-bottom: 0.75rem; display: flex; align-items: center; margin-top: 2rem;
+        }
+        .detail-label::after { content: ''; flex-grow: 1; height: 1px; background: #e2e8f0; margin-left: 0.75rem; }
+        .detail-label:first-of-type { margin-top: 0; }
+
+        .case-study-box {
+            background-color: #fff; border: 1px solid #e2e8f0; border-left: 4px solid #0ea5e9; 
+            border-radius: 0.5rem; padding: 1.25rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+        }
+        .data-metric-box {
+            background-color: #fff1f2; border: 1px dashed #fda4af; border-radius: 0.5rem; 
+            padding: 1rem; font-size: 0.8rem; color: #be185d; line-height: 1.5;
+        }
+        .opt-box {
+            background-color: #fffbeb; border: 1px solid #fde68a; border-radius: 0.5rem; padding: 1rem;
+        }
+
+        .game-tag-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); font-size: 0.75rem; border-width: 1px;
+        }
+        .game-tag-btn:hover { transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .game-tag-btn.active-anime { background-color: #7c3aed; color: white; border-color: #7c3aed; }
+        .game-tag-btn.active-comp { background-color: #059669; color: white; border-color: #059669; }
+        .game-tag-btn.active-casual { background-color: #d97706; color: white; border-color: #d97706; }
+
+        /* --- Research View Styles --- */
+        .doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #e2e8f0; }
+        .doc-section:last-child { border-bottom: none; }
+        .tag-pill { display: inline-flex; align-items: center; padding: 0.15rem 0.65rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; margin-right: 0.5rem; }
+        .nav-item.active { background-color: #eff6ff; color: #2563eb; border-right: 3px solid #2563eb; font-weight: 600; }
+        
+        .script-q { color: #1e293b; font-weight: 700; margin-top: 1.5rem; font-size: 0.95rem; line-height: 1.5; }
+        .script-note { font-size: 0.85rem; color: #64748b; font-style: italic; margin-top: 0.25rem; margin-bottom: 0.5rem; }
+        
+        .rationale-box {
+            background-color: #f0f7ff; border-left: 3px solid #2563eb; padding: 0.75rem 1rem;
+            margin-top: 0.75rem; border-radius: 0 0.5rem 0.5rem 0;
+        }
+        .probe-box {
+            background-color: #fff7ed; border-left: 3px solid #f97316; padding: 0.75rem 1rem;
+            margin-top: 0.75rem; border-radius: 0 0.5rem 0.5rem 0;
+        }
+        .rationale-title { font-size: 0.7rem; font-weight: 800; color: #2563eb; text-transform: uppercase; margin-bottom: 0.25rem; letter-spacing: 0.05em; }
+        .probe-title { font-size: 0.7rem; font-weight: 800; color: #c2410c; text-transform: uppercase; margin-bottom: 0.25rem; letter-spacing: 0.05em; }
+        .rationale-text { font-size: 0.85rem; color: #334155; line-height: 1.5; }
+        
+        /* Citation Specific Styles */
+        .citation-sup {
+            font-size: 0.65rem; color: #2563eb; font-weight: bold; cursor: help; vertical-align: super; margin-left: 2px;
+        }
+        .citation-section {
+            border-top: 1px dashed #cbd5e1; margin-top: 3rem; padding-top: 1.5rem; background-color: #f8fafc; padding: 1rem; border-radius: 0.5rem;
+        }
+        .citation-row {
+            display: flex; align-items: flex-start; margin-bottom: 0.75rem; font-size: 0.75rem; color: #64748b;
+        }
+        .citation-index {
+            min-width: 1.5rem; font-weight: bold; color: #94a3b8;
+        }
+        .citation-tag {
+            display: inline-block; padding: 0.1rem 0.4rem; border: 1px solid #cbd5e1; border-radius: 0.25rem;
+            font-size: 0.65rem; color: #475569; margin-right: 0.5rem; background-color: #fff; white-space: nowrap;
+        }
+        .citation-link {
+            color: #2563eb; text-decoration: none; margin-left: 0.5rem; transition: all 0.2s; border-bottom: 1px dotted #2563eb;
+        }
+        .citation-link:hover { color: #1e40af; border-bottom-style: solid; }
+
+        /* View Toggle Transition */
+        .view-section { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .view-section.active { display: block; opacity: 1; }
+        
+        .tab-btn { border-bottom: 3px solid transparent; color: #64748b; padding-bottom: 0.75rem; transition: all 0.2s; }
+        .tab-btn:hover { color: #334155; }
+        .tab-btn.active { border-bottom: 3px solid #2563eb; color: #0f172a; font-weight: 700; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center h-auto md:h-20 py-3 md:py-0">
+                <!-- Left: Profile -->
+                <div class="flex items-center w-full md:w-auto mb-3 md:mb-0">
+                    <div class="h-12 w-12 bg-primary text-white rounded-xl flex items-center justify-center font-bold text-xl mr-4 shadow-lg bg-gradient-to-br from-gray-800 to-gray-900">赖</div>
+                    <div>
+                        <h1 class="text-xl font-bold text-primary tracking-tight">赖灿彬 <span class="hidden sm:inline text-sm font-normal text-gray-500 ml-2">| 游戏产品经理 / 用户研究</span></h1>
+                        <!-- Contact Info -->
+                        <div class="flex flex-wrap gap-x-6 text-xs text-gray-600 mt-1 font-medium items-center">
+                            <a href="tel:19176624508" class="flex items-center hover:text-intern transition-colors group">
+                                <svg class="w-3.5 h-3.5 mr-1.5 text-gray-400 group-hover:text-intern" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                                191-7662-4508
+                            </a>
+                            <a href="mailto:2995409293@qq.com" class="flex items-center hover:text-intern transition-colors group">
+                                <svg class="w-3.5 h-3.5 mr-1.5 text-gray-400 group-hover:text-intern" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                2995409293@qq.com
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right: View Switcher Tabs -->
+                <div class="flex space-x-8 text-sm font-medium w-full md:w-auto border-t md:border-t-0 border-gray-100 pt-2 md:pt-0">
+                    <button onclick="switchGlobalView('portfolio')" id="tab-portfolio" class="tab-btn active flex items-center justify-center md:justify-start w-1/2 md:w-auto">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        产品/运营洞察
+                    </button>
+                    <button onclick="switchGlobalView('research')" id="tab-research" class="tab-btn flex items-center justify-center md:justify-start w-1/2 md:w-auto">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        用户研究实战
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto w-full">
+
+        <!-- ================= VIEW 1: GAME PORTFOLIO ================= -->
+        <div id="view-portfolio" class="view-section active px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            
+            <!-- 1. Core Competencies -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="intern-card p-5 rounded-xl">
+                    <div class="flex items-center mb-3">
+                        <div class="p-2 bg-blue-100 text-blue-600 rounded-lg mr-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-gray-800 text-sm">二游欧美市场舆情追踪</h3>
+                    </div>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        负责追踪头部二次元游戏在欧美社媒（Reddit/Discord）的舆论反馈。协助完成数据的<b>分类与汇总</b>，识别用户对卡池概率、剧情走向及福利政策的敏感点，撰写定期监测报告，支持市场策略的精细化调整。
+                    </p>
+                </div>
+                <div class="intern-card p-5 rounded-xl">
+                    <div class="flex items-center mb-3">
+                        <div class="p-2 bg-blue-100 text-blue-600 rounded-lg mr-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-gray-800 text-sm">游戏用户访谈执行</h3>
+                    </div>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        协助执行知名项目的用户研究。参与核心玩家的<b>招募、筛选与深访</b>，负责访谈记录与初步分析。利用自身深厚的游戏阅历快速理解玩家术语（如“长草期”、“大小保底”），有效提炼用户真实痛点。
+                    </p>
+                </div>
+                <div class="intern-card p-5 rounded-xl">
+                    <div class="flex items-center mb-3">
+                        <div class="p-2 bg-blue-100 text-blue-600 rounded-lg mr-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-gray-800 text-sm">海外内容生态监测</h3>
+                    </div>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        监测YouTube/Twitch创作者生态。收集KOL内容数据，协助分析玩家社区的内容偏好（攻略向vs二创向）与讨论热点，为游戏在海外的内容推广与社区运营提供基础数据支持。
+                    </p>
+                </div>
+            </section>
+
+            <!-- 2. Dashboard Area -->
+            <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 h-auto lg:h-[1000px]">
+                
+                <!-- Left: Bubble Chart & Selector -->
+                <div class="lg:col-span-7 flex flex-col h-full bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-200">
+                    <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                        <div>
+                            <h3 class="text-base font-bold text-primary">全品类游戏阅历矩阵</h3>
+                            <p class="text-[10px] text-gray-400 mt-1">Bubble Size = 投入时长权重</p>
+                        </div>
+                        <span class="text-[10px] text-gray-500 border px-2 py-1 rounded bg-white font-medium shadow-sm">X: 机制深度 | Y: 叙事浓度</span>
+                    </div>
+                    
+                    <div class="p-4 relative bg-white border-b border-gray-100">
+                        <div class="chart-container" style="height: 380px;">
+                            <canvas id="gameMatrixChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Game Selector -->
+                    <div class="flex-grow bg-white p-6 flex flex-col overflow-hidden">
+                        <div class="flex items-center mb-4">
+                             <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                            <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider">游戏列表快速选择 (Quick Select)</h4>
+                        </div>
+                        <div id="gameSelectorContainer" class="flex-grow overflow-y-auto custom-scroll pr-2 space-y-4">
+                            <!-- JS injected -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Detailed Insight Panel -->
+                <div class="lg:col-span-5 bg-white rounded-2xl shadow-xl border border-gray-200 flex flex-col h-[1000px] overflow-hidden relative">
+                    
+                    <div class="p-5 border-b border-gray-100 bg-white sticky top-0 z-10 flex justify-between items-center">
+                        <h3 class="text-base font-bold text-primary flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-analysis" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            产品洞察档案 (Insight Archive)
+                        </h3>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="emptyState" class="flex-grow flex flex-col justify-center items-center text-gray-400 p-8 text-center bg-gray-50">
+                        <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mb-4 text-gray-400">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                        </div>
+                        <p class="text-sm font-medium">请点击左侧列表查看详细分析</p>
+                        <p class="text-xs mt-2 text-gray-400">包含：商业化拆解、核心循环分析、运营复盘</p>
+                    </div>
+
+                    <!-- Content State -->
+                    <div id="contentState" class="hidden flex-col h-full overflow-y-auto custom-scroll p-6 space-y-8 bg-white">
+                        
+                        <!-- Header -->
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h2 id="gameName" class="text-2xl font-bold text-gray-900 tracking-tight">Game Title</h2>
+                                <div class="flex items-center mt-2 space-x-2">
+                                    <span id="gameTag" class="px-2 py-0.5 bg-gray-100 text-gray-600 text-[10px] font-bold rounded border border-gray-200">Tag</span>
+                                    <span id="gameHours" class="text-[10px] text-gray-400 font-mono"></span>
+                                </div>
+                            </div>
+                            <div id="categoryBadge" class="h-8 w-8 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-md">C</div>
+                        </div>
+
+                        <!-- 1. Data Metrics -->
+                        <div id="dataMetricsBox" class="data-metric-box">
+                            <div class="flex items-center mb-2 font-bold uppercase tracking-wider text-[10px]">
+                                <svg class="w-3 h-3 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                关键数据表现 (Market Performance)
+                            </div>
+                            <p id="dataMetrics" class="opacity-90"></p>
+                        </div>
+
+                        <!-- 2. User Experience -->
+                        <div>
+                            <span class="detail-label">用户画像与体验 (User Persona & Journey)</span>
+                            <p id="userExp" class="text-xs text-gray-600 leading-relaxed text-justify font-medium"></p>
+                        </div>
+
+                        <!-- 3. Case Study -->
+                        <div id="caseBox" class="case-study-box">
+                            <div class="flex items-center mb-3">
+                                <span class="text-lg mr-2">💡</span>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-900">深度运营/版本复盘 (Case Study)</span>
+                            </div>
+                            <h4 id="caseTitle" class="text-sm font-bold text-gray-800 mb-2 border-b border-gray-100 pb-2"></h4>
+                            <p id="caseContent" class="text-xs text-gray-700 leading-relaxed text-justify"></p>
+                        </div>
+
+                        <!-- 4. PM Insight -->
+                        <div>
+                            <span class="detail-label">产品底层逻辑拆解 (Product Logic)</span>
+                            <div class="space-y-4">
+                                <div class="bg-gray-50 p-4 rounded-lg border-l-2 border-primary">
+                                    <span class="block text-[10px] font-bold text-primary mb-1.5 uppercase">核心循环 (Core Loop)</span>
+                                    <p id="pmCoreLoop" class="text-xs text-gray-600 leading-relaxed"></p>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg border-l-2 border-analysis">
+                                    <span class="block text-[10px] font-bold text-analysis mb-1.5 uppercase">商业化设计 (Monetization)</span>
+                                    <p id="pmMonetization" class="text-xs text-gray-600 leading-relaxed"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 5. Competitor Analysis -->
+                        <div id="compAnalysisSection" class="analysis-card p-5 shadow-sm">
+                            <div class="flex items-center mb-4">
+                                <span class="text-lg mr-2">⚔️</span>
+                                <h4 class="text-[10px] font-bold uppercase tracking-wider text-sky-700">竞品差异化与壁垒 (Competition)</h4>
+                            </div>
+                            <div id="compList" class="space-y-3 mb-4"></div>
+                            <div class="bg-white/60 p-3 rounded border border-sky-100">
+                                <span class="text-[10px] font-bold text-sky-600 block mb-1 uppercase">核心壁垒 (The Moat)</span>
+                                <p id="compDiff" class="text-xs text-gray-700 leading-relaxed font-medium"></p>
+                            </div>
+                        </div>
+
+                        <!-- 6. Optimization -->
+                        <div class="opt-box">
+                            <div class="flex items-center mb-2 text-yellow-700">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                <span class="text-[10px] font-bold uppercase tracking-wider">若我是PM：优化建议 (Optimization)</span>
+                            </div>
+                            <p id="optimization" class="text-xs text-gray-800 leading-relaxed font-medium"></p>
+                        </div>
+                        
+                        <div class="h-8"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= VIEW 2: USER RESEARCH ================= -->
+        <div id="view-research" class="view-section px-4 py-6">
+            <div class="flex flex-col lg:flex-row bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden min-h-[900px]">
+                
+                <!-- Research Sidebar -->
+                <aside class="w-full lg:w-72 bg-gray-50 border-b lg:border-b-0 lg:border-r border-gray-200 flex flex-col flex-shrink-0">
+                    <div class="p-6 border-b border-gray-200">
+                        <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wider">研究课题 (Projects)</h2>
+                        <p class="text-[10px] text-gray-400 mt-1">基于真实业务场景模拟</p>
+                    </div>
+                    <nav class="flex-grow overflow-y-auto p-3 space-y-2">
+                        <button onclick="loadProject('genshin')" id="btn-genshin" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-white transition-all active shadow-sm border border-transparent">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-bold text-sm text-gray-800">原神：长草期流失</span>
+                                <span class="w-2 h-2 rounded-full bg-red-500 shadow-sm"></span>
+                            </div>
+                            <p class="text-[10px] text-gray-500 truncate">高等级玩家活跃度下降归因</p>
+                        </button>
+                        <button onclick="loadProject('hok')" id="btn-hok" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-white transition-all shadow-sm border border-transparent">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-bold text-sm text-gray-800">王者：排位挫败感</span>
+                                <span class="w-2 h-2 rounded-full bg-orange-500 shadow-sm"></span>
+                            </div>
+                            <p class="text-[10px] text-gray-500 truncate">ELO机制下的情绪曲线研究</p>
+                        </button>
+                        <button onclick="loadProject('wuwa')" id="btn-wuwa" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-white transition-all shadow-sm border border-transparent">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-bold text-sm text-gray-800">鸣潮：竞品迁徙</span>
+                                <span class="w-2 h-2 rounded-full bg-blue-500 shadow-sm"></span>
+                            </div>
+                            <p class="text-[10px] text-gray-500 truncate">原神玩家尝试竞品的动机</p>
+                        </button>
+                    </nav>
+                    <div class="p-5 border-t border-gray-200 text-[10px] text-gray-400">
+                        <p class="font-bold mb-2 text-gray-500">METHODOLOGY STACK:</p>
+                        <ul class="list-disc pl-3 space-y-1">
+                            <li>定性：深度访谈 (IDI)</li>
+                            <li>定量：问卷投放 (Survey)</li>
+                            <li>模型：KANO / NPS / 漏斗分析</li>
+                        </ul>
+                    </div>
+                </aside>
+
+                <!-- Research Content -->
+                <main class="flex-grow p-8 lg:p-12 bg-white overflow-y-auto custom-scroll">
+                    <div id="project-content" class="max-w-4xl mx-auto">
+                        <!-- Content Injected Here -->
+                    </div>
+                </main>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // --- GLOBAL VIEW SWITCHER ---
+        function switchGlobalView(viewName) {
+            // Update Tab UI
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tab-${viewName}`).classList.add('active');
+
+            // Toggle Sections
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(`view-${viewName}`).classList.add('active');
+        }
+
+        // ================= PART 1: GAME DATA & LOGIC =================
+        let currentGameName = ""; 
+
+        const gamesData = [
+            { 
+                id: 'genshin', name: '原神 (Genshin Impact)', category: 'Anime',
+                depth: 65, narrative: 85, hours: 35,
+                tag: '深度体验 / 3年',
+                userExp: '【用户画像】早期为开放世界探索型玩家，后期转化为剧情/角色驱动型用户（XP党）。\n【体验痛点】随着地图资源耗尽，长草期（Content Drought）体验极度依赖版本活动，圣遗物养成系统的随机性（RNG）带来较强的挫败感，但高质量的PV和角色演示（Demo）始终维持着回流动力。',
+                dataMetrics: '全球首年移动端营收超20亿美元（SensorTower数据）；3.0须弥版本更新后DAU重回巅峰；钟离卡池事件曾导致国服iOS畅销榜排名短暂波动。',
+                caseTitle: '危机公关：钟离事件与“服务型游戏”的契约重构',
+                caseContent: '1.1版本钟离强度的翻车引发了“开发票”级的舆情风暴。这次事件的本质并非单纯的数值失衡，而是打破了二游玩家的隐形契约——“高氪金投入（单价高）应对应高保值率与符合人设的强度”。玩家认为“岩王帝君”的背景设定与实战表现割裂（Ludonarrative Dissonance）。官方后续通过直接修改技能机制与增加岩队共鸣，不仅平息了怒火，更成功建立了“神必抽”的强力心智，将一场信任危机转化为后续雷神、草神卡池的高ARPU驱动力。',
+                pmCoreLoop: '探索大世界获取资源 -> 抽取/培养角色 -> 验证角色强度（深渊/大世界战斗） -> 情感投射（剧情/语音）。核心驱动力是“为爱付费”。',
+                pmMonetization: '混合变现：角色/武器扭蛋（Gacha）+ 纪行（Battle Pass）+ 月卡（Subscription）。其中“命座”机制将单个角色的付费深度拉升至数万元。',
+                competitors: [
+                    { name: '鸣潮', point: '竞品放弃了“合家欢”策略，专注于“战斗手感”垂直切面，引入声骸与弹刀机制，承接对原神战斗乏味的进阶玩家。' },
+                    { name: '幻塔', point: '选择MMO赛道，强调多人同屏与社交PVP，填补了原神“弱社交”的空白，但牺牲了沉浸感。' }
+                ],
+                differentiation: '工业化产能壁垒。42天一更新的稳定节奏，使得内容消耗与产出达到动态平衡，竞品难以在体量和质量上同时追赶。',
+                optimization: '针对老玩家圣遗物养成疲劳，建议引入更可控的“词条定轨”或“资源转化”机制（类似星铁的定向合成），降低沉没成本带来的退坑风险。'
+            },
+            { 
+                id: 'honkai3', name: '崩坏3', category: 'Anime',
+                depth: 78, narrative: 90, hours: 50,
+                tag: '深度体验 / 6年',
+                userExp: '【用户画像】硬核动作玩家 + 剧情考据党。\n【体验痛点】深渊/战场（PVPVE）的排行榜机制构成了极强的“强度焦虑”。不抽新版本之子（Meta Character）就无法保级，导致游戏体验从“玩”变成“上班”。',
+                dataMetrics: '第一部完结短片《毕业旅行》全网播放量超千万；但在第二部更新初期，因系统改动过大，曾面临活跃用户下滑挑战（据社区热度估算）。',
+                caseTitle: '长线运营：IP代际更替与“特修斯之船”困境',
+                caseContent: '游戏第一部“琪亚娜的故事”完结时达到了情感与流水的双巅峰，但也成为了老玩家的最佳“毕业点”。第二部推出新主角团时，面临了巨大的用户情感迁移成本。对于长线内容型产品，当承载用户情感锚点的“主角”被替换时，用户的沉没成本感会被重置，极易导致流失。这揭示了IP续作化过程中的核心风险管理问题。',
+                pmCoreLoop: '版本活动/主线 -> 获取水晶 -> 抽取新女武神/装备 -> 挑战深渊/战场排行榜 -> 获取更多资源。循环极度依赖数值验证。',
+                pmMonetization: '强数值驱动：不仅卖角色，更卖专属装备（圣痕/武器）。“毕业”一个角色的成本极高，且保值期受环境（天气系统）控制。',
+                competitors: [
+                    { name: '战双帕弥什', point: '战斗机制（三消）更具创新，画风更冷峻，吸引了反感“软色情”且追求极致操作的硬核玩家。' },
+                    { name: '深空之眼', point: '通过AI连携降低操作门槛，试图承接那些打不动崩三的“手残”党，但缺乏IP厚度。' }
+                ],
+                differentiation: '通过长达6年的高频高质动画短片（米哈游动画厂）构建了无法复制的情感壁垒。玩家留存往往是为了“看番”。',
+                optimization: '优化回归玩家体验。目前的回归系统引导过于复杂，且数值差距过大。建议为回归玩家提供“试用强力角色”打通深渊的特权，先恢复爽感，再引导付费。'
+            },
+            { 
+                id: 'fgo', name: 'FGO', category: 'Anime',
+                depth: 25, narrative: 98, hours: 15,
+                tag: '深度体验 / 1年',
+                userExp: '【用户画像】型月IP死忠粉、剧情阅读者。\n【体验】玩法极其古早（2015年水平），无扫荡，养成肝度大。但每当新主线开启，依然通宵推图。这是一种“阅读体验”大于“游戏体验”的特殊状态。',
+                dataMetrics: '2021年日服2.6章开启后，营收重回全球手游榜首；全球累计营收突破70亿美元（截至2023年数据）。',
+                caseTitle: '内容变现：2.6章——当文本量转化为流水',
+                caseContent: '在系统严重老化的情况下，2.6章“妖精圆桌领域”仅凭奈须蘑菇亲自执笔的超长篇剧本（文本量破纪录）与奥伯龙极具争议的人设，创造了历史级营收。数据证明，对于IP向游戏，核心用户对“好故事”的付费意愿（Willingness to Pay）远高于“好玩法”。用户的心理账户是在为“电子小说”而非“回合制战斗”买单。',
+                pmCoreLoop: '推剧情 -> 厨力放出（爱上角色） -> 抽卡 -> 刷素材练度 -> 等待新剧情。玩法服务于叙事。',
+                pmMonetization: '纯粹的“为爱付费”（Pay for Love）。强度并非刚需（低星卡也能过本），但为了全图鉴或满宝具，玩家愿意支付高昂溢价。',
+                competitors: [
+                    { name: '碧蓝幻想', point: 'GBF侧重极度的“肝”与复杂的盘子构建（数值策略），FGO侧重轻度数值与重度阅读。' },
+                    { name: '明日方舟', point: '方舟通过独特的“谜语人”碎片化叙事与塔防玩法建立了差异化，但FGO依然是直球宏大叙事的巅峰。' }
+                ],
+                differentiation: '型月（Type-Moon）的IP宗教化。用户对Fate世界观的认同感超越了游戏本身，使其能够容忍极其落后的机制。',
+                optimization: '亟需引入“剧情回顾战斗跳过”或更现代化的养成减负机制（如素材保底掉落），防止因“太肝”而劝退只想看剧情的轻度用户。'
+            },
+            { 
+                id: 'wuwa', name: '鸣潮', category: 'Anime',
+                depth: 88, narrative: 60, hours: 10,
+                tag: '深度体验 / 1年',
+                userExp: '【用户画像】追求战斗爽感的进阶玩家、原神流失用户。\n【体验】战斗系统（弹刀、声骸QTE）极其爽快，跑图体验（飞檐走壁）优于竞品。但1.0版本剧情雷点导致了严重的初见杀。',
+                dataMetrics: '公测首月全球流水预估超5亿人民币，但次月留存率面临挑战；1.1版本更新后口碑明显回暖。',
+                caseTitle: '初动复盘：滑跪式运营与定位修正',
+                caseContent: '公测初期因文案事故（主角待遇差）导致口碑崩盘，官方迅速“滑跪”修改剧情并赠送五星自选。这种“听劝”的态度虽然挽回了部分DAU，但也暴露了前期用户画像的偏差——即便是硬核动作玩家，在二游中也极度看重“主角中心化”的叙事体验（Master Love）。',
+                pmCoreLoop: '大世界探索/战斗 -> 捕捉声骸（Pokemon-like） -> 角色养成 -> 挑战高难副本（全息战略）。',
+                pmMonetization: '与原神类似的米式卡池，但通过降低武器池保底（100%不歪）来建立“良心”差异化。',
+                competitors: [
+                    { name: '原神', point: '直接竞品。鸣潮必须在“战斗深度”和“移动端优化”之间找到平衡，才能承接原神溢出的流量。' },
+                    { name: '绝区零', point: '箱庭动作VS大世界动作。鸣潮的优势在于自由度，劣势在于美术风格的辨识度略逊。' }
+                ],
+                differentiation: '声骸系统。将“刷圣遗物”变成了“抓怪”，增加了大世界探索的即时反馈感（Instant Gratification）。',
+                optimization: '剧情演出的分镜与动作捕捉仍有提升空间。建议增加更多“战斗中叙事”的片段，发挥动作引擎的优势，减少站桩对话。'
+            },
+            { 
+                id: 'pcr', name: '公主连结', category: 'Anime',
+                depth: 40, narrative: 75, hours: 5,
+                tag: '轻度 / 3个月',
+                userExp: '【用户画像】番剧爱好者、公会社交型玩家。\n【体验】日常极其护肝（扫荡券），但公会战（Clan Battle）期间压力陡增。需要“排刀”、“摸轴”，这种强制社交带来了极强的上班感。',
+                dataMetrics: '国服开服打破B站代理游戏记录；日服运营多年依然保持周年庆登顶畅销榜的记录。',
+                caseTitle: '社交机制：公会战（Clan Battle）的双刃剑',
+                caseContent: '强社交的公会战机制极大地提升了用户粘性（社会资本绑定），但也提高了流失门槛。一旦核心成员弃坑，往往会导致整个公会的雪崩式流失。这是强社交二游必须面对的“连带退坑”风险，如何在硬核排刀与休闲扫荡之间做平衡是痛点。',
+                pmCoreLoop: '日常扫荡养成 -> 观看剧情（番剧） -> 月度公会战（团队协作） -> 获取工资（钻石）抽卡。',
+                pmMonetization: '福利经济学。通过赠送大量免费资源维持超高DAU，利用庞大的用户基数筛选出鲸鱼用户（Whales）为限定人权卡付费。',
+                competitors: [
+                    { name: '蔚蓝档案', point: '弱化了PVP社交压力，以更轻松清新的基调（Meme图/二创）吸引了大量被公会战劝退的社畜玩家。' },
+                    { name: '刀塔传奇', point: '玩法原型的鼻祖，但PCR通过极致的二次元包装（全语音动画）将这套数值玩法卖给了宅男群体。' }
+                ],
+                differentiation: '番剧式体验。全语音、全动画的剧情演出，配合极其大方的福利运营，是副游（Side Game）的极致形态。',
+                optimization: '针对公会战压力，建议引入“模拟出刀”系统的官方整合版，并增加“自动出刀”的伤害保底机制，减少排刀的沟通成本。'
+            },
+            { 
+                id: '7days', name: '永恒的七日之都', category: 'Anime',
+                depth: 50, narrative: 92, hours: 5,
+                tag: '轻度 / 3个月',
+                userExp: '【用户画像】文字冒险（AVG）玩家、多周目探索者。\n【体验】独特的“7天循环”机制，每一周目的选择都会导致不同结局，代入感极强。但作为手游，重复游玩的枯燥感随着周目增加指数级上升。',
+                dataMetrics: '开服首月流水过亿，但三个月后留存率断崖式下跌；最终于2021年宣布停服（后转为单机版）。',
+                caseTitle: '玩法复盘：单机叙事结构与手游长线运营的矛盾',
+                caseContent: '游戏试图将AVG的多结局体验网游化。初期口碑极佳，但随着剧情被消耗殆尽，长草期玩家无事可做。这证明了强叙事游戏如果不解决“重复可玩性（Replayability）”问题，其生命周期（Lifecycle）将被剧本产能死死锁住。线性剧情更新永远追不上玩家的消耗速度。',
+                pmCoreLoop: '7日循环决策 -> 触发剧情分支 -> 战斗推图 -> 达成结局 -> 开启新周目（继承部分数值）。',
+                pmMonetization: '抽取神器使（角色）+ 影装（装备）。由于数值对结局影响有限，后期付费动力不足。',
+                competitors: [
+                    { name: '隐形守护者', point: '互动影游的代表，买断制，没有长线运营压力，体验更完整。' },
+                    { name: 'Life is Strange', point: '单机叙事神作。七日之都试图在手游复刻这种体验，但受限于抽卡商业模式的干扰。' }
+                ],
+                differentiation: 'AVG与MOBA操作的独特融合。在二游中大胆尝试“轮回”题材，虽然长线失败，但在叙事结构上极具实验性价值。',
+                optimization: '如果重做，应改为“赛季制”剧本更新，或引入Roguelike元素来填充周目之间的重复战斗垃圾时间。'
+            },
+            { 
+                id: 'azur', name: '碧蓝航线', category: 'Anime',
+                depth: 20, narrative: 55, hours: 12,
+                tag: '较深度 / 1年',
+                userExp: '【用户画像】上班族、军武娘爱好者、Lsp。\n【体验】完美的“副游”定位。挂机即可，不抢占核心时间。核心动力纯粹是美术（Live2D）和收藏欲，是上班族的摸鱼神器。',
+                dataMetrics: '全球累计收入超10亿美元，其中皮肤销售收入占比远高于同类游戏；日服长期保持高活跃度。',
+                caseTitle: '商业模式：L2D皮肤驱动的“电子手办”经济',
+                caseContent: '官方精准放弃了玩法的深度，转而深耕美术质量。通过高频率、大尺度的皮肤更新，满足用户的情绪价值。这种模式下，皮肤不仅是外观，更是用户的“数字资产”和“情感寄托”。玩家更愿意为“老婆的新衣服”付费，而不是为“+5%攻击力”付费。',
+                pmCoreLoop: '挂机刷图 -> 获取资源 -> 建造舰船 -> 购买皮肤 -> 鉴赏互动。核心是“收藏”。',
+                pmMonetization: '卖皮肤（主要收入）+ 扩充船坞 + 戒指（誓约）。抽卡良心（7%出货率）建立了高商誉，促进了皮肤消费。',
+                competitors: [
+                    { name: '舰C', point: '鼻祖。但碧蓝航线优化了“沉船”惩罚（无角色死亡），并用更符合现代审美的画风占领了全球市场。' },
+                    { name: '妮姬', point: '同为“卖肉”赛道，NIKKE在战斗视觉冲击力上更强，但碧蓝航线的养成成本更低，更适合养老。' }
+                ],
+                differentiation: '极致的软色情（Soft-core）擦边球策略与极其友好的出货率。让玩家觉得“官方是自己人”，从而产生“为爱发电”的报恩式消费。',
+                optimization: '玩法过于单一导致“电子盆栽”化。建议增加一些轻度策略的常驻玩法（如自走棋模式），提升用户在线时长，但不能增加肝度。'
+            },
+
+            // --- Competitive / Strategy ---
+            { 
+                id: 'hok', name: '王者荣耀', category: 'Comp',
+                depth: 80, narrative: 20, hours: 45,
+                tag: '荣耀王者50星 / 4年',
+                userExp: '【用户画像】全年龄段社交用户。\n【体验】已成为社交基础设施。高分段对ELO机制深恶痛绝，但为了维系社交关系（带人/开黑）依然无法弃坑。游戏性已转化为社交货币。',
+                dataMetrics: '日活跃用户（DAU）稳定破亿；全球手游收入榜常驻冠军。',
+                caseTitle: '匹配算法：ELO机制下的日活最大化策略',
+                caseContent: '系统通过动态调整匹配队友的隐藏分，强行将大多数玩家胜率控制在50%。这虽然牺牲了头部玩家（高信噪比）的体验，但保证了腰部玩家（大多数）的“有输有赢”和心流体验，从而最大化了整体DAU和用户在线时长。这是一种典型的以“全局留存”为目标的算法设计。',
+                pmCoreLoop: '单局对战 -> 获得金币/排位星级 -> 购买英雄/展示段位 -> 社交炫耀。',
+                pmMonetization: '皮肤（无属性/微属性）+ 战令。商业化早已脱离了数值付费，转向“情感表达”与“社交装扮”。',
+                competitors: [
+                    { name: 'LOL手游', point: '更还原端游操作（4技能/双召），门槛更高，吸引的是硬核MOBA原教旨主义者，难以下沉。' },
+                    { name: '决战平安京', point: '主打二次元画风与“无符文”公平性，只能在细分垂直领域生存，无法撼动王者的社交大盘。' }
+                ],
+                differentiation: '社交垄断。在任何聚会场景下，王者荣耀是唯一能让5个不同背景的人立刻开黑的通用语言（Social Infrastructure）。',
+                optimization: '针对高分段玩家的ELO挫败感，建议优化“巅峰赛”的匹配逻辑，引入更严格的“表现分”权重，让实力强劲的玩家能更快脱离鱼塘，而不是被系统强行拖拽。'
+            },
+            { 
+                id: 'tft', name: '金铲铲之战', category: 'Comp',
+                depth: 85, narrative: 5, hours: 25,
+                tag: '大师段位 / 1年',
+                userExp: '【用户画像】策略博弈爱好者、LOL流失老玩家。\n【体验】纯粹的脑力与运气博弈。挫败感来源于“发牌员”而非对手，这种归因偏差（Attribution Bias）大大降低了输掉比赛的负面情绪，非常上头。',
+                dataMetrics: 'DAU突破3000万；常驻App Store畅销榜前十。',
+                caseTitle: '机制迭代：“计划性报废”的赛季重置',
+                caseContent: '每3-4个月彻底重构棋子与羁绊，强制所有玩家回到同一起跑线。这种机制有效解决了数值膨胀和阵容固化（Meta Stagnation），让游戏永远处于“探索期”，极大延长了产品的生命周期。相比于传统卡牌游戏的“退环境”，这种全盘重置带来的新鲜感更强。',
+                pmCoreLoop: '对局运营（经济/阵容） -> 吃鸡/前四 -> 段位提升 -> 解锁小小英雄/棋盘。',
+                pmMonetization: '随机性变现。利用“小小英雄”抽奖（盲盒逻辑）实现高ARPU，且完全不破坏竞技公平性。',
+                competitors: [
+                    { name: '炉石酒馆', point: '更轻度，节奏更快，但金铲铲通过装备合成与羁绊构建提供了更深的策略维度。' },
+                    { name: '刀塔霸业', point: '自走棋鼻祖，但因更新缓慢和移动端优化不足而没落，缺乏长线运营能力。' }
+                ],
+                differentiation: '依托于LOL庞大的英雄池与装备系统，拥有无限的赛季更迭素材。移动端的双端互通体验做到了极致（碎片化时间适配）。',
+                optimization: '赛季末期容易出现阵容僵化（内卷）。建议在赛季末引入更频繁的“娱乐模式”或“突变规则”，缓解排位疲劳。'
+            },
+            { 
+                id: 'cr', name: '皇室战争', category: 'Comp',
+                depth: 82, narrative: 10, hours: 15,
+                tag: '深度 / 1年',
+                userExp: '【用户画像】轻度电竞玩家、碎片时间用户。\n【体验】3分钟一局的RTS，极度考验反应。但卡等压制（P2W）在冲杯过程中非常明显，Battle Pass是微氪玩家的唯一出路。',
+                dataMetrics: '累计营收超30亿美元；Battle Pass推出后月营收显著回升。',
+                caseTitle: '商业化：Battle Pass (皇室令牌) 的教科书应用',
+                caseContent: 'Supercell引入的Battle Pass成功将“付费赢取时间”体验平滑化。它通过高频的任务奖励极大提升了用户日活（DAU）和留存，将一次性付费转化为稳定的订阅制收入（Subscription-like）。这解决了RTS游戏难以变现的痛点。',
+                pmCoreLoop: '实时对战 -> 获取宝箱 -> 等待开启（时间付费点） -> 升级卡牌 -> 冲击更高竞技场。',
+                pmMonetization: '时间加速（开箱）+ 资源获取（通行证）。典型的“花钱买时间”模型。',
+                competitors: [
+                    { name: '部落冲突', point: '同门师兄，COC侧重长线养成与异步攻防，CR侧重实时博弈与反应速度。' },
+                    { name: '漫威对决', point: 'CCG卡牌对战，虽然策略性强，但缺乏CR那种“单位同屏混战”的直观视觉爽感。' }
+                ],
+                differentiation: '极简与极深的完美统一。单手操作的低门槛下，蕴含着精确到0.1秒的解场博弈。',
+                optimization: '卡组平衡性调整频率过慢。建议引入“禁用/Ban”机制到天梯中高分段，增加博弈维度，减少毒瘤卡组的统治力。'
+            },
+            { 
+                id: 'compass', name: '#COMPASS', category: 'Comp',
+                depth: 78, narrative: 40, hours: 5,
+                tag: '轻度 / 3个月',
+                userExp: '【用户画像】日系二次元玩家、快节奏竞技党。\n【体验】竖屏3V3据点争夺，节奏极快。单手操作非常有创意。但联动角色的强度往往破坏平衡，对无氪玩家极其不友好。',
+                dataMetrics: '日本地区下载量超1500万；依靠IP联动多次登顶日本App Store。',
+                caseTitle: '运营事故：IP联动对竞技环境的冲击',
+                caseContent: '游戏高度依赖IP联动（如初音未来、GG）拉新。但为了促销，联动角色往往设计得超模，导致环境崩坏。这反映了“短期流水”与“长期竞技公平性”之间的博弈与失衡。当PVP游戏变成“Pay to Win”时，底层用户的流失会加速顶层大R的匹配恶化。',
+                pmCoreLoop: '3分钟据点争夺 -> 抽取技能卡/英雄 -> 升级卡等 -> 赛季排名。',
+                pmMonetization: '双重扭蛋：抽角色 + 抽技能卡。且技能卡有突破（Limit Break）机制，付费坑极深。',
+                competitors: [
+                    { name: '荒野乱斗', point: '同为快节奏3V3，BS采用双摇杆射击，COMPASS采用卡牌+动作，后者策略组合更丰富但上手更难。' },
+                    { name: '宝可梦大集结', point: 'IP更强，但玩法更偏传统MOBA的简化版，缺乏COMPASS那种独特的竖屏操作体验。' }
+                ],
+                differentiation: '竖屏动作MOBA。在碎片化时间（3分钟）内提供了高强度的动作博弈体验，且二次元浓度极高。',
+                optimization: '必须优化匹配机制，在卡等差距过大时提供数值修正（动态平衡），否则新手体验极差，留存率堪忧。'
+            },
+
+            // --- Casual / Mini ---
+            { 
+                id: 'sheep', name: '羊了个羊', category: 'Casual',
+                depth: 10, narrative: 5, hours: 15,
+                tag: '小游戏 / 爆款',
+                userExp: '【用户画像】泛大众用户、跟风尝鲜者。\n【体验】反直觉的难度曲线。第一关教你玩，第二关教你做人。为了看省份排名，不得不看广告复活。这不仅是游戏，是社交货币。',
+                dataMetrics: '巅峰日活曾破亿；单日广告收入估算达数百万量级（虽官方辟谣具体数字，但行业推算极高）。',
+                caseTitle: '病毒传播：基于地域自豪感的社交裂变',
+                caseContent: '利用“为省份而战”触发病毒式传播。超高的难度设计本质是为了最大化广告展示率（Ad Impression）。它验证了情绪价值（不服输/炫耀）在下沉市场的变现能力。这是一种利用“沉没成本”和“赌徒心理”的广告播放器设计。',
+                pmCoreLoop: '闯关失败 -> 观看广告复活/获取道具 -> 再次失败 -> 再次看广告 -> 通关炫耀（极低概率）。',
+                pmMonetization: 'IAA（广告变现）。没有内购，纯靠激励视频广告盈利，CPM（千次展示费用）极高。',
+                competitors: [
+                    { name: '开心消消乐', point: '传统的长线消除游戏，难度曲线平滑，旨在让用户玩得久；羊了个羊旨在让用户“死”得快。' },
+                    { name: '2048', point: '纯粹的数学逻辑游戏，缺乏羊了个羊那种“地域排名”的社交煽动性。' }
+                ],
+                differentiation: '不是游戏，是社交话题。利用“反人性”的难度设计激发用户的逆反心理与炫耀欲。',
+                optimization: '由于玩法过于单一，生命周期极短。建议快速迭代“每日挑战”规则，或推出“多人合作消除”模式，延长用户粘性。'
+            },
+            { 
+                id: 'xundao', name: '寻道大千', category: 'Casual',
+                depth: 30, narrative: 20, hours: 30,
+                tag: '小游戏 / 深度',
+                userExp: '【用户画像】中年男性、修仙题材爱好者。\n【体验】开箱子-换装备-开箱子。极其纯粹的数值成长快感（Dopamine Loop）。后期如果不氪金，进度几乎停滞。',
+                dataMetrics: '月流水稳定超4亿，半年买量成本超50亿（数据来源：亿欧网/三七互娱财报分析）。',
+                caseTitle: '买量逻辑：史金纳箱与高LTV模型的胜利',
+                caseContent: '游戏设计完全遵循行为主义心理学。通过前期的超高爽感（高频掉落）留住用户，中期卡数值逼迫付费。其成功在于精准的买量投放模型（ROI>1）与极高的用户生命周期价值预估。这是典型的“流量倒卖”生意。',
+                pmCoreLoop: '砍树（开箱） -> 获得装备 -> 提升战力 -> 挑战关卡 -> 解锁更多砍树资源。',
+                pmMonetization: '混合变现王者。IAP（内购加速资源获取）+ IAA（看广告获取资源）。精准收割不同付费能力的用户。',
+                competitors: [
+                    { name: '疯狂骑士团', point: '同类开箱子玩法，但寻道大千选用了受众更广的“修仙”题材，买量转化率（CTR）更高。' },
+                    { name: '咸鱼之王', point: '咸鱼侧重挂机推图，寻道侧重装备属性刷新（洗炼），后者的随机性成瘾更强。' }
+                ],
+                differentiation: '修仙题材与开箱玩法的完美契合。精准击中了中年男性用户对于“数值飞升”的爽点需求，且操作极简。',
+                optimization: '后期数值膨胀严重，非R玩家流失快。建议增加“跨服战”的分层匹配机制，让低战力玩家也能在自己的圈层获得成就感。'
+            },
+            { 
+                id: 'saltedfish', name: '咸鱼之王', category: 'Casual',
+                depth: 25, narrative: 15, hours: 35,
+                tag: '小游戏 / 挂机',
+                userExp: '【用户画像】泛娱乐用户、碎片时间多的人。\n【体验】魔性的画风，挂机变强。利用碎片化时间非常有效，不用担心跟不上进度，因为大家都是咸鱼。',
+                dataMetrics: '累计注册用户超亿；长期霸榜微信小游戏人气榜。',
+                caseTitle: 'IP重构：丑萌画风降低获客成本（CAC）',
+                caseContent: '将三国人物咸鱼化，降低了认知门槛，增加了趣味性和传播度。核心机制是“挂机收益”，利用“损失厌恶”心理（不挂机就亏了）提高用户次日留存。这种画风天然具有极高的点击率（CTR），有效降低了买量成本，在买量成本高企的今天，魔性就是生产力。',
+                pmCoreLoop: '挂机推图 -> 获得宝箱/金币 -> 升级咸鱼武将 -> 爬塔/竞技场 -> 获得更多资源。',
+                pmMonetization: '深坑养成。碎片升星、鱼灵觉醒、玩具系统，每一个都是深不见底的付费坑。',
+                competitors: [
+                    { name: '放置奇兵', point: '放置类的老大哥，画风偏欧美写实；咸鱼之王通过搞怪画风实现了下沉市场的降维打击。' },
+                    { name: '剑与远征', point: 'AFK美术极其精美，但养成深度过高；咸鱼之王更轻度，更适合微信小程序的即开即玩场景。' }
+                ],
+                differentiation: '搞怪美术风格降低了买量成本（CAC）。在同质化的放置赛道中，让人看一眼就记住。',
+                optimization: '社交裂变主要靠“拉人头”，容易引起反感。建议增加“咸鱼公会战”等更深度的社交协作玩法，从“拉新”转向“维稳”。'
+            },
+            { 
+                id: 'cytus', name: 'Cytus II', category: 'Casual',
+                depth: 60, narrative: 65, hours: 8,
+                tag: '较深度 / 半年',
+                userExp: '【用户画像】音游核心玩家、赛博朋克爱好者。\n【体验】不仅是音游。iM系统（模拟社交网络）的碎片化叙事极具代入感。打歌是为了看剧情，这种驱动力在音游中很少见。',
+                dataMetrics: '雷亚游戏口碑之作；全球付费下载量超百万；通过DLC和联动持续盈利。',
+                caseTitle: '交互创新：UI即世界观的沉浸式设计',
+                caseContent: 'Cytus II打破了音游“弱剧情”的传统。它将剧情隐藏在模拟的论坛帖子中，让玩家产生“窥屏”的真实感。这种UI与叙事的深度结合，极大提升了玩家对角色的共情。当剧情高潮（如角色死亡）发生时，主界面UI甚至会崩坏，代入感极强。',
+                pmCoreLoop: '游玩曲目 -> 解锁iM帖子 -> 阅读剧情 -> 解锁新曲目/新角色。',
+                pmMonetization: '买断制本体 + 角色DLC/曲包。虽然天花板低，但建立了极高的品牌忠诚度。',
+                competitors: [
+                    { name: '节奏大师', point: '纯粹的下落式按键音游，缺乏剧情包装，社交属性强但沉浸感弱。' },
+                    { name: 'Deemo', point: '同厂作品，Deemo偏钢琴叙事，Cytus II偏电子赛博风，两者覆盖了不同的审美圈层。' }
+                ],
+                differentiation: '交互式叙事。将“打歌”变成了“黑客解密”的一部分，让音游玩家第一次为了看剧情而苦练技术。',
+                optimization: '上手门槛（全屏判定）对新手略高。建议增加更详细的“判定线”教学或动态难度调整，防止新玩家在初期流失。'
+            },
+             { 
+                id: 'goose', name: '抓大鹅', category: 'Casual',
+                depth: 15, narrative: 5, hours: 10,
+                tag: '小游戏 / 3D消除',
+                userExp: '【用户画像】女性用户、休闲解压需求者。\n【体验】3D版羊了个羊。摇晃手机找东西的操作利用了物理反馈，很解压。',
+                dataMetrics: '微信小游戏人气飙升榜第一；抖音话题播放量数十亿。',
+                caseTitle: '体验升级：Haptic Feedback（触觉反馈）的应用',
+                caseContent: '在同质化的消除赛道，引入3D物理碰撞与重力感应。摇晃手机的动作打破了传统的点击交互，增加了沉浸感。这种微创新配合地域排名，再次引爆了社交圈。它证明了即使是简单的消除玩法，也能通过“手感”做出差异化。',
+                pmCoreLoop: '寻找物品 -> 消除 -> 摇晃手机（物理交互） -> 通关/失败看广告。',
+                pmMonetization: 'IAA广告变现。利用复活和道具需求展示激励视频。',
+                competitors: [
+                    { name: '羊了个羊', point: '核心玩法相同，但抓大鹅增加了物理反馈的爽感，解决了2D消除的枯燥感。' },
+                    { name: 'Tile Master', point: '传统3消，缺乏抓大鹅那种“乱中找物”的各种奇葩道具带来的惊喜感。' }
+                ],
+                differentiation: '利用手机陀螺仪的物理交互。在简单的消除中加入了“寻找”和“翻找”的动作乐趣。',
+                optimization: '物品堆叠物理引擎偶尔会有Bug（卡住）。需要优化物理碰撞算法，避免因技术问题导致玩家通关失败产生的挫败感。'
+            }
+        ];
+
+        // ================= PART 2: RESEARCH DATA & LOGIC (DEEP UPGRADE) =================
+        const projects = {
+            'genshin': {
+                title: "《原神》高等级玩家“长草期”流失风险与回流机制研究",
+                tags: ["用户留存", "定性访谈", "Lapsed Users"],
+                background: "随着须弥/枫丹版本进入中后期，数据后台显示 AR55+（冒险等级55以上）的核心玩家周活跃时长显著下降 <span class='data-citation'>[1]</span>。社区舆论出现“电子上班”与“内容空窗期”的负面反馈 <span class='data-citation'>[2]</span>。我们需要探究导致核心玩家从“日常活跃”转变为“版本流失”的关键心理阈值。",
+                objective: "1. 定义“长草期”玩家的心理焦虑来源（是资源溢出无处消耗，还是内容审美疲劳？）。<br>2. 验证当前“版本活动”对留存的实际贡献度。<br>3. 挖掘能够触发老玩家回流的“决定性瞬间”（Aha Moment）。",
+                citations: [
+                    { id: 1, tag: "Market Data", source: "Sensor Tower", title: "Genshin Impact Surpasses $3 Billion on Mobile", url: "https://sensortower.com/blog/genshin-impact-three-billion-revenue" },
+                    { id: 2, tag: "Community", source: "NGA", title: "NGA玩家社区-原神版面", url: "https://bbs.nga.cn/thread.php?fid=650" }
+                ],
+                qualitative: `
+                    <h4 class="text-sm font-bold text-gray-800 mb-4 border-l-4 border-brand pl-3">深度访谈提纲 (IDI Guide) - 45分钟</h4>
+                    
+                    <!-- Module 1 -->
+                    <div class="mb-6">
+                        <h5 class="text-xs font-bold text-gray-500 uppercase mb-2">模块一：行为破冰与惯性测试 (Behavioral Trace)</h5>
+                        <div class="rationale-box">
+                            <p class="rationale-title">【设计意图】验证“行为惯性 (Inertia)”的衰退</p>
+                            <p class="rationale-text">玩家流失通常始于微小的行为改变（如不再合成浓缩树脂）。本环节旨在捕捉“仪式感”崩塌的瞬间。</p>
+                        </div>
+                        <p class="script-q">Q: 请回忆一下上周你最后一次打开《原神》的场景。做完每日委托后，你做的下一件事是什么？</p>
+                        <div class="probe-box">
+                            <p class="probe-title">【深挖技巧 Probe】</p>
+                            <p class="rationale-text">若回答“下线”，追问：“以前（3个月前）你会直接下线吗？如果不会，当时你会多做些什么？”（对比今昔行为，寻找断点）</p>
+                        </div>
+                        <p class="script-q">Q: 你现在上线还会合成“浓缩树脂”吗？如果体力溢出了，你的第一反应是“可惜”还是“无所谓”？</p>
+                        <p class="script-note">（目的：测试“损失厌恶”心理是否已经失效。）</p>
+                    </div>
+
+                    <!-- Module 2 -->
+                    <div class="mb-6">
+                        <h5 class="text-xs font-bold text-gray-500 uppercase mb-2">模块二：痛点归因 (Pain Point Attribution)</h5>
+                        <div class="rationale-box">
+                            <p class="rationale-title">【设计意图】区分“内容匮乏”与“激励失效”</p>
+                            <p class="rationale-text">验证核心假设：长草期的本质不是“没得玩”，而是“回报率 (ROI) 过低”。</p>
+                        </div>
+                        <p class="script-q">Q: 很多玩家提到“长草期”，对你个人而言，最让你感到“无聊”的具体时刻是什么？</p>
+                        <p class="script-note">（使用 <b>Laddering 阶梯法</b>：无聊 -> 因为刷本重复 -> 因为圣遗物词条全是防御 -> 感到付出没有回报 -> 挫败感/虚无感）</p>
+                        <p class="script-q">Q: 假设《原神》变成一个纯单机游戏，彻底取消每日委托和体力限制，你觉得你多久会打开它一次？</p>
+                        <div class="probe-box">
+                            <p class="probe-title">【深挖技巧 Probe】</p>
+                            <p class="rationale-text">如果回答“很久才一次”，说明该玩家目前的活跃完全是被“打卡机制”强行绑架的，流失风险极高。</p>
+                        </div>
+                    </div>
+
+                    <!-- Module 3 -->
+                    <div class="mb-6">
+                        <h5 class="text-xs font-bold text-gray-500 uppercase mb-2">模块三：沉没成本与回流 (Sunk Cost & Return)</h5>
+                        <div class="rationale-box">
+                            <p class="rationale-title">【设计意图】评估“账号价值”对留存的束缚力</p>
+                            <p class="rationale-text">基于“禀赋效应”，测试玩家对自己账号投入（金钱/时间）的心理估值。</p>
+                        </div>
+                        <p class="script-q">Q: 如果现在有人出高价买你的账号，但你从此不能再玩原神，你最舍不得的是哪个角色？为什么？</p>
+                        <p class="script-q">Q: 在什么情况下，你会彻底决定“弃坑”而不仅仅是“暂离”？</p>
+                        <p class="script-note">（目的：寻找“压死骆驼的最后一根稻草”，如：连续小保底歪、剧情人设崩塌等。）</p>
+                    </div>`
+            },
+            'hok': {
+                title: "《王者荣耀》排位赛挫败感与ELO机制下的用户情绪曲线研究",
+                tags: ["竞技体验", "情绪价值", "Churn Analysis"],
+                background: "数据表明，单排玩家在遭遇3连败后的当日流失率激增 <span class='data-citation'>[1]</span>。社区中关于“ELO制裁”的负面讨论热度居高不下 <span class='data-citation'>[2]</span>。我们需要了解在连败过程中，玩家的情绪拐点在哪里，以及什么样的正反馈能有效阻断流失。",
+                objective: "1. 绘制玩家在连胜/连败路径下的情绪体验地图 (Customer Journey Map)。<br>2. 探究“社交压力”在排位赛中的双向作用（是留存动力还是焦虑来源）。<br>3. 评估现有的“勇者积分/保星卡”机制对挫败感的缓解效果。",
+                citations: [
+                    { id: 1, tag: "Benchmarks", source: "GameAnalytics", title: "Mobile gaming benchmarks for Q1 2024", url: "https://www.gameanalytics.com/reports/mobile-games-benchmarks-q1-2024" },
+                    { id: 2, tag: "Social Sentiment", source: "Tencent PVP", title: "王者荣耀官网：ELO机制揭秘与说明", url: "https://pvp.qq.com/web201605/newsDetail.shtml?tid=501721" }
+                ],
+                qualitative: `
+                    <h4 class="text-sm font-bold text-gray-800 mb-4 border-l-4 border-orange-500 pl-3">深度访谈提纲 (IDI Guide) - 30分钟</h4>
+                    
+                    <!-- Module 1 -->
+                    <div class="mb-6">
+                        <h5 class="text-xs font-bold text-gray-500 uppercase mb-2">模块一：关键事件回顾 (Critical Incident Technique)</h5>
+                        <div class="rationale-box">
+                            <p class="rationale-title">【设计意图】验证“峰终定律 (Peak-End Rule)”的负面效应</p>
+                            <p class="rationale-text">玩家对一段体验的记忆主要取决于高峰（最气愤）和结尾（下线前）。本模块旨在还原那个“最气愤”的时刻。</p>
+                        </div>
+                        <p class="script-q">Q: 想请你回忆一下最近一次让你感到“非常生气”甚至想摔手机的对局。具体发生了什么？</p>
+                        <p class="script-note">（关注归因：是队友太坑、对手太强、还是网络/机制问题？）</p>
+                        <p class="script-q">Q: 连跪之后，你的下一个动作通常是什么？（去打娱乐模式、看战绩回放复盘、还是直接关掉游戏？）</p>
+                        <div class="probe-box">
+                            <p class="probe-title">【深挖技巧 Probe】</p>
+                            <p class="rationale-text">若回答“继续开一把”，追问：“当时是觉得下一把一定能赢（赌徒心理），还是单纯不服气？”</p>
+                        </div>
+                    </div>
+
+                    <!-- Module 2 -->
+                    <div class="mb-6">
+                        <h5 class="text-xs font-bold text-gray-500 uppercase mb-2">模块二：机制认知与习得性无助 (Learned Helplessness)</h5>
+                        <div class="rationale-box">
+                            <p class="rationale-title">【设计意图】量化“ELO阴谋论”的影响</p>
+                            <p class="rationale-text">探究用户的 <b>归因偏差 (Attribution Bias)</b>。测试用户是否已经形成了“无论我怎么努力，系统都要让我输”的无助感。</p>
+                        </div>
+                        <p class="script-q">Q: 你觉得系统是故意让你输的吗？为什么会有这种感觉？（有什么具体的迹象让你确信这一点？）</p>
+                        <p class="script-q">Q: “保星卡”或者“勇者积分”的存在，在连败时能给你带来多少安慰？（1-10分打分）</p>
+                    </div>
+
+                    <!-- Module 3 -->
+                    <div class="mb-6">
+                        <h5 class="text-xs font-bold text-gray-500 uppercase mb-2">模块三：社交压力 (Social Pressure)</h5>
+                        <div class="rationale-box">
+                            <p class="rationale-title">【设计意图】区分社交动力与负担</p>
+                        </div>
+                        <p class="script-q">Q: 如果你的段位掉到了王者以下，你会不敢接受朋友的排位邀请吗？</p>
+                        <p class="script-q">Q: 段位对你来说，更多是实力的证明，还是一张为了不和朋友脱节的“社交门票”？</p>
+                    </div>`
+            },
+            'wuwa': {
+                title: "《鸣潮》竞品迁徙洞察：原神玩家的尝试动机与留存差异",
+                tags: ["竞品分析", "用户画像", "新品体验"],
+                background: "《鸣潮》上线后，大量原神玩家进行尝试 <span class='data-citation'>[1]</span>。我们需要区分“双修党”（同时玩两款）与“迁移党”（弃原玩鸣）的核心诉求差异，明确我方产品的核心竞争壁垒与风险点。",
+                objective: "1. 明确原神玩家尝试鸣潮的“推力”（原神的不满点）与“拉力”（鸣潮的吸引点）。<br>2. 对比两款游戏在“战斗手感”与“剧情沉浸感”上的用户感知差异。<br>3. 挖掘导致用户在首周流失的“劝退点”。",
+                citations: [
+                    { id: 1, tag: "Audience Overlap", source: "Stream Hatchet", title: "The Shared Gacha Game Audiences", url: "https://streamhatchet.com/blog/the-shared-gacha-game-audiences-of-wuthering-waves-and-genshin-impact/" }
+                ],
+                qualitative: `
+                    <h4 class="text-sm font-bold text-gray-800 mb-4 border-l-4 border-blue-500 pl-3">深度访谈提纲 (IDI Guide) - 40分钟</h4>
+                    
+                    <!-- Module 1 -->
+                    <div class="mb-6">
+                        <h5 class="text-xs font-bold text-gray-500 uppercase mb-2">模块一：动机探索 (Motivation)</h5>
+                        <div class="rationale-box">
+                            <p class="rationale-title">【设计意图】应用推拉理论 (Push-Pull Theory)</p>
+                            <p class="rationale-text">用户切换产品的动力 = (新产品的吸引力 + 旧产品的不满) - (切换成本 + 旧产品的习惯)。本模块旨在拆解这四个要素。</p>
+                        </div>
+                        <p class="script-q">Q: 既然已经在玩原神了，当初是什么原因让你决定下载《鸣潮》？是原神哪里让你不满意了（推力），还是鸣潮哪里吸引了你（拉力）？</p>
+                        <p class="script-q">Q: 在下载前，你对《鸣潮》最大的期待是什么？实际体验后，这个期待被满足了吗？</p>
+                    </div>
+
+                    <!-- Module 2 -->
+                    <div class="mb-6">
+                        <h5 class="text-xs font-bold text-gray-500 uppercase mb-2">模块二：体验对比与具身认知 (Embodied Cognition)</h5>
+                        <div class="rationale-box">
+                            <p class="rationale-title">【设计意图】验证“操作手感”的不可替代性</p>
+                            <p class="rationale-text">测试动作游戏的“打击感”是否构成了足够高的切换壁垒。</p>
+                        </div>
+                        <p class="script-q">Q: 玩鸣潮的时候，有没有哪个瞬间让你下意识想按原神的键位？（测试习惯阻力）</p>
+                        <p class="script-q">Q: 聊聊战斗体验。当你打出“弹刀”或“极限闪避”时，你的爽感来源于哪里？这种感觉和原神的元素反应体验有何本质不同？</p>
+                        <div class="probe-box">
+                            <p class="probe-title">【深挖技巧 Probe】</p>
+                            <p class="rationale-text">引导用户描述具体的感官体验（如声音、震动、特效），而非笼统的“很爽”。</p>
+                        </div>
+                    </div>
+
+                    <!-- Module 3 -->
+                    <div class="mb-6">
+                        <h5 class="text-xs font-bold text-gray-500 uppercase mb-2">模块三：留存决策与沉没成本 (Retention Decision)</h5>
+                        <div class="rationale-box">
+                            <p class="rationale-title">【设计意图】评估“双修”的可行性</p>
+                        </div>
+                        <p class="script-q">Q: 你的手机内存够同时装这两个游戏吗？如果不够，你会删掉谁？为什么？</p>
+                        <p class="script-q">Q: 如果未来只能保留一款，你会怎么选？关键的决定因素是什么？（是因为在这个游戏里充了更多钱，还是因为朋友都在玩？）</p>
+                    </div>`
+            }
+        };
+
+        function loadProject(projectId) {
+            const data = projects[projectId];
+            if (!data) return;
+
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active', 'bg-blue-50');
+            });
+            const activeBtn = document.getElementById(`btn-${projectId}`);
+            if (activeBtn) activeBtn.classList.add('active', 'bg-blue-50');
+
+            const tagsHtml = data.tags.map(tag => 
+                `<span class="tag-pill bg-blue-100 text-blue-700">${tag}</span>`
+            ).join('');
+
+            // Generate Citations HTML
+            let citationsHTML = '';
+            if (data.citations && data.citations.length > 0) {
+                const rows = data.citations.map(c => `
+                    <div class="citation-row">
+                        <span class="citation-index">[${c.id}]</span>
+                        <span class="citation-tag">${c.tag}</span>
+                        <span class="mr-1">${c.source}</span>
+                        <span class="text-gray-400">-</span>
+                        <span class="ml-1">${c.title}</span>
+                        <a href="${c.url}" target="_blank" class="citation-link" title="Source Link" rel="noopener noreferrer">
+                            [Link]
+                        </a>
+                    </div>
+                `).join('');
+                
+                citationsHTML = `
+                    <div class="citation-section">
+                        <h4 class="text-xs font-bold text-gray-400 uppercase mb-2 tracking-wider">数据来源与参考文献 (References & Data Sources)</h4>
+                        ${rows}
+                    </div>
+                `;
+            }
+
+            const contentHTML = `
+                <div class="animate-fade-in">
+                    <div class="mb-8">
+                        <div class="flex items-center mb-4">${tagsHtml}</div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">${data.title}</h2>
+                    </div>
+                    <div class="doc-section grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-100">
+                            <h3 class="text-sm font-bold text-gray-500 uppercase mb-3">调研背景 (Background)</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">${data.background}</p>
+                        </div>
+                        <div class="bg-blue-50 p-5 rounded-lg border border-blue-100">
+                            <h3 class="text-sm font-bold text-blue-600 uppercase mb-3">研究目标 (Objective)</h3>
+                            <p class="text-sm text-gray-800 leading-relaxed">${data.objective}</p>
+                        </div>
+                    </div>
+                    <div class="doc-section">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">定性研究执行方案 (Qualitative Execution)</h3>
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">${data.qualitative}</div>
+                    </div>
+                    ${citationsHTML}
+                </div>
+            `;
+            document.getElementById('project-content').innerHTML = contentHTML;
+        }
+
+        // ================= PART 3: INITIALIZATION =================
+        document.addEventListener('DOMContentLoaded', function() {
+            initGameMatrix();
+            initBeautifiedGameSelector();
+            loadProject('genshin'); // Init default research project
+        });
+
+        function initGameMatrix() {
+            const ctx = document.getElementById('gameMatrixChart').getContext('2d');
+            const dataPoints = gamesData.map(game => ({
+                x: game.depth, y: game.narrative, r: Math.max(5, Math.min(game.hours / 1.5, 30)), gameInfo: game
+            }));
+
+            new Chart(ctx, {
+                type: 'bubble',
+                data: {
+                    datasets: [{
+                        label: '游戏分布',
+                        data: dataPoints,
+                        backgroundColor: (ctx) => {
+                            const cat = ctx.raw?.gameInfo?.category;
+                            if (cat === 'Anime') return 'rgba(124, 58, 237, 0.7)'; 
+                            if (cat === 'Comp') return 'rgba(5, 150, 105, 0.7)'; 
+                            return 'rgba(217, 119, 6, 0.7)'; 
+                        },
+                        borderColor: (ctx) => {
+                             const cat = ctx.raw?.gameInfo?.category;
+                             if (cat === 'Anime') return 'rgba(124, 58, 237, 1)';
+                             if (cat === 'Comp') return 'rgba(5, 150, 105, 1)';
+                             return 'rgba(217, 119, 6, 1)';
+                        },
+                        borderWidth: 1.5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: { padding: 15 },
+                    scales: {
+                        x: { title: { display: true, text: '玩法机制深度 (Depth) →', color: '#94a3b8', font: {size: 11} }, min: 0, max: 100 },
+                        y: { title: { display: true, text: '叙事/社交浓度 (Narrative) →', color: '#94a3b8', font: {size: 11} }, min: 0, max: 100 }
+                    },
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(context) { return context.raw.gameInfo.name; } } } },
+                    onClick: (e, elements) => { if (elements.length > 0) updateDetailPanel(gamesData[elements[0].index]); }
+                }
+            });
+        }
+
+        function initBeautifiedGameSelector() {
+            const container = document.getElementById('gameSelectorContainer');
+            const groups = {
+                'Anime': { title: '二次元 / 内容向', color: 'text-anime', bg: 'bg-purple-50', border: 'border-purple-100' },
+                'Comp': { title: '竞技 / 策略向', color: 'text-comp', bg: 'bg-emerald-50', border: 'border-emerald-100' },
+                'Casual': { title: '休闲 / 小游戏', color: 'text-casual', bg: 'bg-amber-50', border: 'border-amber-100' }
+            };
+
+            for (const [key, config] of Object.entries(groups)) {
+                const groupSection = document.createElement('div');
+                groupSection.className = 'mb-2';
+                const title = document.createElement('h5');
+                title.className = `text-[10px] font-bold uppercase tracking-wider mb-2 ${config.color} opacity-80`;
+                title.textContent = config.title;
+                groupSection.appendChild(title);
+
+                const btnGrid = document.createElement('div');
+                btnGrid.className = 'flex flex-wrap gap-2';
+                
+                gamesData.filter(g => g.category === key).forEach(game => {
+                    const btn = document.createElement('button');
+                    btn.className = `game-tag-btn px-3 py-1 rounded-full border bg-white text-gray-600 hover:${config.bg} hover:${config.color} whitespace-nowrap`;
+                    btn.textContent = game.name;
+                    btn.dataset.gameId = game.id; 
+                    btn.onclick = () => { updateDetailPanel(game); updateActiveButtonState(btn, key); };
+                    btnGrid.appendChild(btn);
+                });
+                groupSection.appendChild(btnGrid);
+                container.appendChild(groupSection);
+            }
+        }
+
+        function updateActiveButtonState(clickedBtn, category) {
+            document.querySelectorAll('.game-tag-btn').forEach(btn => {
+                btn.className = btn.className.replace(/active-\w+/, '').trim();
+                btn.style.backgroundColor = ''; btn.style.color = ''; btn.style.borderColor = '';
+            });
+            if (category === 'Anime') clickedBtn.classList.add('active-anime');
+            else if (category === 'Comp') clickedBtn.classList.add('active-comp');
+            else clickedBtn.classList.add('active-casual');
+        }
+
+        function updateDetailPanel(game) {
+            currentGameName = game.name;
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('contentState').classList.remove('hidden');
+            document.getElementById('contentState').classList.add('flex');
+            
+            document.getElementById('gameName').textContent = game.name;
+            document.getElementById('gameTag').textContent = game.tag;
+            document.getElementById('gameHours').textContent = `投入时长权重: ${game.hours}`;
+            document.getElementById('userExp').innerText = game.userExp;
+            document.getElementById('dataMetrics').textContent = game.dataMetrics;
+            document.getElementById('caseTitle').textContent = game.caseTitle;
+            document.getElementById('caseContent').textContent = game.caseContent;
+            document.getElementById('pmCoreLoop').textContent = game.pmCoreLoop;
+            document.getElementById('pmMonetization').textContent = game.pmMonetization;
+            document.getElementById('optimization').textContent = game.optimization;
+
+            const compList = document.getElementById('compList');
+            compList.innerHTML = ''; 
+            if (game.competitors && game.competitors.length > 0) {
+                game.competitors.forEach(comp => {
+                    const row = document.createElement('div');
+                    row.className = 'flex items-start text-xs';
+                    row.innerHTML = `<span class="font-bold text-gray-700 min-w-[30%] mr-2">• ${comp.name}</span><span class="text-gray-500 leading-tight">${comp.point}</span>`;
+                    compList.appendChild(row);
+                });
+            }
+            document.getElementById('compDiff').textContent = game.differentiation || '暂无差异化分析';
+
+            // Dynamic Styling
+            const caseBox = document.getElementById('caseBox');
+            const catBadge = document.getElementById('categoryBadge');
+            caseBox.style.backgroundColor = '#fff';
+            if (game.category === 'Anime') {
+                caseBox.style.borderLeft = '4px solid #7c3aed';
+                catBadge.className = 'h-6 w-6 rounded-full flex items-center justify-center text-white font-bold text-[10px] shadow-sm bg-anime';
+                catBadge.textContent = '二';
+            } else if (game.category === 'Comp') {
+                caseBox.style.borderLeft = '4px solid #059669';
+                catBadge.className = 'h-6 w-6 rounded-full flex items-center justify-center text-white font-bold text-[10px] shadow-sm bg-comp';
+                catBadge.textContent = '竞';
+            } else {
+                caseBox.style.borderLeft = '4px solid #d97706';
+                catBadge.className = 'h-6 w-6 rounded-full flex items-center justify-center text-white font-bold text-[10px] shadow-sm bg-casual';
+                catBadge.textContent = '休';
+            }
+
+            const btn = document.querySelector(`button[data-game-id="${game.id}"]`);
+            if(btn) updateActiveButtonState(btn, game.category);
+        }
+    </script>
+</body>
+</html>
