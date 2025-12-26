@@ -47,17 +47,48 @@
         .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         /* --- Portfolio View Styles --- */
-        /* Updated chart container: Full height on desktop, fixed height on mobile */
         .chart-container { position: relative; width: 100%; height: 100%; } 
         
         .intern-card {
             border-left: 4px solid #2563eb;
             background: linear-gradient(to right, #eff6ff, #ffffff);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            position: relative;
         }
-        .intern-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px -4px rgba(37, 99, 235, 0.1); }
+        /* 增加卡片Hover效果，暗示可点击 */
+        .intern-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px -4px rgba(37, 99, 235, 0.15); }
         
+        /* 专门针对跳转卡片的样式优化 (保持简洁版) */
+        .jump-card {
+            cursor: pointer;
+            border-left: 4px solid #f59e0b; /* 使用不同颜色区分 */
+            background: linear-gradient(to right, #fffbeb, #ffffff);
+        }
+        .jump-card:hover {
+            border-color: #d97706;
+            background: linear-gradient(to right, #fef3c7, #ffffff);
+        }
+        .jump-hint {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 0.25rem;
+            background-color: #d97706;
+            color: white;
+            font-size: 0.7rem;
+            text-align: center;
+            font-weight: bold;
+            transform: translateY(100%);
+            transition: transform 0.2s ease-in-out;
+            opacity: 0;
+        }
+        .jump-card:hover .jump-hint {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
         .analysis-card { background-color: #f0f9ff; border: 1px solid #bae6fd; border-radius: 0.5rem; }
 
         .detail-label { 
@@ -92,7 +123,6 @@
         .doc-section:last-child { border-bottom: none; }
         .tag-pill { display: inline-flex; align-items: center; padding: 0.15rem 0.65rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; margin-right: 0.5rem; }
         
-        /* Revised Nav Item for Responsive Sidebar */
         .nav-item { border-left: 3px solid transparent; transition: all 0.2s; }
         .nav-item:hover { background-color: #fff; }
         .nav-item.active { background-color: #eff6ff; color: #2563eb; border-left-color: #2563eb; font-weight: 600; }
@@ -112,7 +142,6 @@
         .probe-title { font-size: 0.7rem; font-weight: 800; color: #c2410c; text-transform: uppercase; margin-bottom: 0.25rem; letter-spacing: 0.05em; }
         .rationale-text { font-size: 0.85rem; color: #334155; line-height: 1.5; }
         
-        /* Citation Specific Styles */
         .citation-sup {
             font-size: 0.65rem; color: #2563eb; font-weight: bold; cursor: help; vertical-align: super; margin-left: 2px;
         }
@@ -138,9 +167,75 @@
         .view-section { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
         .view-section.active { display: block; opacity: 1; }
         
-        .tab-btn { border-bottom: 3px solid transparent; color: #64748b; padding-bottom: 0.75rem; transition: all 0.2s; }
-        .tab-btn:hover { color: #334155; }
-        .tab-btn.active { border-bottom: 3px solid #2563eb; color: #0f172a; font-weight: 700; }
+        /* === SLIDING TOGGLE STYLES (Border + Shadow for Visibility) === */
+        .nav-toggle-wrapper {
+            background-color: #f1f5f9; /* Slate 100 */
+            padding: 4px;
+            border-radius: 9999px;
+            display: inline-flex;
+            position: relative;
+            /* Added Border for 'Inlay' effect */
+            border: 2px solid #cbd5e1; /* Stronger Gray Border */
+            /* Subtle drop shadow to lift it off the white header */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        /* Hover effect on wrapper to encourage interaction */
+        .nav-toggle-wrapper:hover {
+            border-color: #94a3b8; /* Darker border on hover */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+        }
+        
+        /* The sliding background pill (Primary Black-Blue) */
+        .nav-slider-bg {
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            left: 4px;
+            width: calc(50% - 4px);
+            background-color: #0f172a; /* Primary Black-Blue */
+            border-radius: 9999px;
+            border: 2px solid #ffffff; /* Added White Border */
+            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            /* Crisp shadow for the 'floating' effect */
+            box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.3), 0 2px 4px -1px rgba(15, 23, 42, 0.1); 
+            z-index: 1;
+        }
+        
+        /* Toggle state: Move right */
+        .nav-toggle-wrapper.show-research .nav-slider-bg {
+            transform: translateX(100%);
+        }
+
+        .nav-toggle-btn {
+            position: relative;
+            z-index: 2; /* Above slider */
+            padding: 8px 24px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #64748b; /* Inactive color (Gray) */
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            min-width: 140px; /* Adjust width slightly */
+            justify-content: center;
+        }
+        
+        .nav-toggle-btn:hover {
+            color: #334155;
+        }
+
+        /* Active Text Color: White for contrast against Black-Blue */
+        .nav-toggle-wrapper:not(.show-research) #tab-portfolio,
+        .nav-toggle-wrapper.show-research #tab-research {
+            color: #ffffff; 
+        }
+
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -148,13 +243,14 @@
     <!-- Header -->
     <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-[98%] mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- REVERTED: Standard layout (Space Between) -->
             <div class="flex flex-col md:flex-row justify-between items-center h-auto md:h-24 py-3 md:py-0">
+                
                 <!-- Left: Profile -->
                 <div class="flex items-center w-full md:w-auto mb-3 md:mb-0">
                     <div class="h-12 w-12 bg-primary text-white rounded-xl flex items-center justify-center font-bold text-xl mr-4 shadow-lg bg-gradient-to-br from-gray-800 to-gray-900">赖</div>
                     <div>
                         <h1 class="text-xl font-bold text-primary tracking-tight">赖灿彬 <span class="hidden sm:inline text-sm font-normal text-gray-500 ml-2">| 游戏产品 / 用户研究</span></h1>
-                        <!-- Contact Info -->
                         <div class="flex flex-wrap gap-x-6 text-xs text-gray-600 mt-1 font-medium items-center">
                             <a href="tel:19176624508" class="flex items-center hover:text-intern transition-colors group">
                                 <svg class="w-3.5 h-3.5 mr-1.5 text-gray-400 group-hover:text-intern" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
@@ -168,16 +264,21 @@
                     </div>
                 </div>
                 
-                <!-- Right: View Switcher Tabs -->
-                <div class="flex space-x-8 text-sm font-medium w-full md:w-auto border-t md:border-t-0 border-gray-100 pt-2 md:pt-0 mt-2 md:mt-0">
-                    <button onclick="switchGlobalView('portfolio')" id="tab-portfolio" class="tab-btn active flex items-center justify-center md:justify-start w-1/2 md:w-auto">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                        产品/运营洞察
-                    </button>
-                    <button onclick="switchGlobalView('research')" id="tab-research" class="tab-btn flex items-center justify-center md:justify-start w-1/2 md:w-auto">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
-                        用户研究模拟
-                    </button>
+                <!-- Right: Sliding Toggle Nav (Right Aligned) -->
+                <div class="mt-2 md:mt-0 w-full md:w-auto flex justify-center md:justify-end">
+                    <div id="navContainer" class="nav-toggle-wrapper">
+                        <!-- Sliding Black-Blue Background -->
+                        <div class="nav-slider-bg"></div>
+                        
+                        <button onclick="switchGlobalView('portfolio')" id="tab-portfolio" class="nav-toggle-btn">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                            产品/运营洞察
+                        </button>
+                        <button onclick="switchGlobalView('research')" id="tab-research" class="nav-toggle-btn">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                            用户研究模拟
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -201,17 +302,29 @@
                         负责追踪头部二次元游戏在欧美社媒（Reddit/Discord）的舆论反馈。协助完成数据的<b>分类与汇总</b>，识别用户对卡池概率、剧情走向及福利政策的敏感点，撰写定期监测报告，支持市场策略的精细化调整。
                     </p>
                 </div>
-                <div class="intern-card p-5 rounded-xl">
-                    <div class="flex items-center mb-3">
-                        <div class="p-2 bg-blue-100 text-blue-600 rounded-lg mr-3">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+
+                <!-- OPTIMIZED ENTRANCE CARD: Clean Interactive "Jump" Card -->
+                <div class="intern-card jump-card p-5 rounded-xl overflow-hidden group" onclick="switchGlobalView('research')" title="点击查看用户研究实战案例">
+                    <div class="flex items-center mb-3 justify-between">
+                        <div class="flex items-center">
+                            <div class="p-2 bg-orange-100 text-orange-600 rounded-lg mr-3 group-hover:bg-orange-200 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            </div>
+                            <h3 class="font-bold text-gray-800 text-sm group-hover:text-orange-700 transition-colors">游戏用户访谈执行</h3>
                         </div>
-                        <h3 class="font-bold text-gray-800 text-sm">游戏用户访谈执行</h3>
+                        <!-- CTA Arrow -->
+                        <div class="text-gray-300 group-hover:text-orange-500 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                        </div>
                     </div>
-                    <p class="text-xs text-gray-600 leading-relaxed">
-                        协助执行知名项目的用户研究。参与核心玩家的<b>招募、筛选与深访</b>，负责访谈记录与初步分析。利用自身深厚的游戏阅历快速理解玩家术语（如“长草期”、“大小保底”），有效提炼用户真实痛点。
+                    <p class="text-xs text-gray-600 leading-relaxed group-hover:text-gray-800">
+                        协助执行知名项目的用户研究。参与核心玩家的<b>招募、筛选与深访</b>。利用深厚游戏阅历快速理解“长草期”、“大小保底”等术语，有效提炼痛点。
                     </p>
+                    <div class="jump-hint">
+                        点击查看：3个模拟用研实战项目 &gt;
+                    </div>
                 </div>
+
                 <div class="intern-card p-5 rounded-xl">
                     <div class="flex items-center mb-3">
                         <div class="p-2 bg-blue-100 text-blue-600 rounded-lg mr-3">
@@ -226,44 +339,40 @@
             </section>
 
             <!-- 2. Dashboard Area -->
-            <!-- FIX: Mobile = h-auto (natural flow); Desktop = fixed screen ratio -->
-            <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 h-auto lg:h-[calc(100vh-140px)] lg:min-h-[700px]">
+            <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 h-auto lg:h-[calc(100vh-140px)] lg:min-h-[700px]">
                 
-                <!-- Left: Bubble Chart & Selector -->
-                <div class="lg:col-span-7 flex flex-col h-auto lg:h-full bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-200">
-                    <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 flex-shrink-0">
+                <!-- Left: Bubble Chart & Selector (Modified: lg:col-span-6 for 50% width) -->
+                <div class="lg:col-span-6 flex flex-col h-auto lg:h-full bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-200">
+                    <!-- Compact Header -->
+                    <div class="p-3 border-b border-gray-100 flex justify-between items-center bg-gray-50 flex-shrink-0">
                         <div>
-                            <h3 class="text-base font-bold text-primary">全品类游戏阅历矩阵</h3>
-                            <p class="text-[10px] text-gray-400 mt-1">Bubble Size = 投入时长权重</p>
+                            <h3 class="text-sm font-bold text-primary">全品类游戏阅历矩阵</h3>
+                            <p class="text-[10px] text-gray-400 mt-0.5">Bubble Size = 投入时长权重</p>
                         </div>
-                        <span class="text-[10px] text-gray-500 border px-2 py-1 rounded bg-white font-medium shadow-sm">X: 机制深度 | Y: 叙事浓度</span>
+                        <span class="text-[9px] text-gray-500 border px-1.5 py-0.5 rounded bg-white font-medium shadow-sm">X: 机制深度 | Y: 叙事浓度</span>
                     </div>
 
-                    <!-- Game Selector (Optimized Layout) -->
-                    <!-- FIX: Removed lg:max-h constraint to allow full visibility on desktop. Mobile retains max-h for compactness. -->
-                    <div class="bg-white p-4 flex flex-col overflow-hidden border-b border-gray-100 max-h-[300px] lg:max-h-none lg:h-auto flex-shrink-0">
-                        <div class="flex items-center mb-3 flex-shrink-0">
-                             <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                            <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider">游戏列表快速选择 (Quick Select)</h4>
+                    <!-- Game Selector (Compact) -->
+                    <div class="bg-white p-3 flex flex-col overflow-hidden border-b border-gray-100 max-h-[300px] lg:max-h-none lg:h-auto flex-shrink-0">
+                        <div class="flex items-center mb-2 flex-shrink-0">
+                             <svg class="w-3.5 h-3.5 text-gray-400 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                            <h4 class="text-[10px] font-bold text-gray-500 uppercase tracking-wider">游戏列表快速选择 (Quick Select)</h4>
                         </div>
-                        <!-- FIX: Removed vertical scroll on desktop (lg:overflow-visible) to show all content immediately -->
-                        <div id="gameSelectorContainer" class="flex-grow overflow-y-auto lg:overflow-visible custom-scroll pr-2 space-y-3">
+                        <div id="gameSelectorContainer" class="flex-grow overflow-y-auto lg:overflow-visible custom-scroll pr-1 space-y-2">
                             <!-- JS injected -->
                         </div>
                     </div>
                     
-                    <!-- Bubble Chart -->
-                    <!-- FIX: Added lg:min-h-0 to prevent flex overflow issues, ensuring chart stays within container -->
-                    <div class="p-3 relative bg-white h-[350px] lg:h-auto lg:flex-grow lg:min-h-0">
+                    <!-- Bubble Chart (Compact Padding) -->
+                    <div class="p-2 relative bg-white h-[350px] lg:h-auto lg:flex-grow lg:min-h-0">
                         <div class="chart-container w-full h-full">
                             <canvas id="gameMatrixChart"></canvas>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right: Detailed Insight Panel -->
-                <!-- Added id="detail-panel-container" for scroll targeting -->
-                <div id="detail-panel-container" class="lg:col-span-5 bg-white rounded-2xl shadow-xl border border-gray-200 flex flex-col h-[600px] lg:h-full overflow-hidden relative">
+                <!-- Right: Detailed Insight Panel (Modified: lg:col-span-6 for 50% width) -->
+                <div id="detail-panel-container" class="lg:col-span-6 bg-white rounded-2xl shadow-xl border border-gray-200 flex flex-col h-[600px] lg:h-full overflow-hidden relative">
                     
                     <div class="p-5 border-b border-gray-100 bg-white sticky top-0 z-10 flex justify-between items-center">
                         <h3 class="text-base font-bold text-primary flex items-center">
@@ -277,89 +386,108 @@
                         <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mb-4 text-gray-400">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
                         </div>
-                        <!-- FIX: Updated text for generic context -->
                         <p class="text-sm font-medium">请在列表中选择游戏查看详细分析</p>
                         <p class="text-xs mt-2 text-gray-400">包含：商业化拆解、核心循环分析、运营复盘</p>
                     </div>
 
-                    <!-- Content State -->
-                    <div id="contentState" class="hidden flex-col h-full overflow-y-auto custom-scroll p-6 space-y-8 bg-white">
+                    <!-- Content State (Modified Structure for Tabs) -->
+                    <div id="contentState" class="hidden flex-col h-full overflow-hidden bg-white">
                         
-                        <!-- Header -->
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h2 id="gameName" class="text-2xl font-bold text-gray-900 tracking-tight">Game Title</h2>
-                                <div class="flex items-center mt-2 space-x-2">
-                                    <span id="gameTag" class="px-2 py-0.5 bg-gray-100 text-gray-600 text-[10px] font-bold rounded border border-gray-200">Tag</span>
-                                    <span id="gameHours" class="text-[10px] text-gray-400 font-mono"></span>
+                        <!-- 1. Fixed Header Area -->
+                        <div class="p-6 pb-2 border-b border-gray-100 flex-shrink-0">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h2 id="gameName" class="text-2xl font-bold text-gray-900 tracking-tight">Game Title</h2>
+                                    <div class="flex items-center mt-2 space-x-2">
+                                        <span id="gameTag" class="px-2 py-0.5 bg-gray-100 text-gray-600 text-[10px] font-bold rounded border border-gray-200">Tag</span>
+                                        <span id="gameHours" class="text-[10px] text-gray-400 font-mono"></span>
+                                    </div>
+                                </div>
+                                <div id="categoryBadge" class="h-8 w-8 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-md">C</div>
+                            </div>
+
+                            <!-- Inner Tabs Navigation -->
+                            <div class="flex p-1 bg-gray-100 rounded-lg space-x-1">
+                                <button onclick="switchDetailTab('market')" id="tab-btn-market" class="flex-1 py-1.5 px-3 rounded-md text-[11px] font-bold text-gray-600 transition-all hover:text-gray-900 focus:outline-none detail-tab-active bg-white shadow-sm">
+                                    用户与市场
+                                </button>
+                                <button onclick="switchDetailTab('mechanics')" id="tab-btn-mechanics" class="flex-1 py-1.5 px-3 rounded-md text-[11px] font-bold text-gray-500 transition-all hover:text-gray-900 focus:outline-none">
+                                    机制与竞品
+                                </button>
+                                <button onclick="switchDetailTab('case')" id="tab-btn-case" class="flex-1 py-1.5 px-3 rounded-md text-[11px] font-bold text-gray-500 transition-all hover:text-gray-900 focus:outline-none">
+                                    复盘与建议
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 2. Scrollable Content Area (Grouped by Tabs) -->
+                        <div class="flex-grow overflow-y-auto custom-scroll p-6">
+                            
+                            <!-- Tab 1: Market & User -->
+                            <div id="detail-tab-market" class="space-y-6 animate-fade-in">
+                                <div id="dataMetricsBox" class="data-metric-box">
+                                    <div class="flex items-center mb-2 font-bold uppercase tracking-wider text-[10px]">
+                                        <svg class="w-3 h-3 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                        关键数据表现 (Market Performance)
+                                    </div>
+                                    <p id="dataMetrics" class="opacity-90"></p>
+                                </div>
+                                <div>
+                                    <span class="detail-label">用户画像与体验 (User Persona & Journey)</span>
+                                    <p id="userExp" class="text-xs text-gray-600 leading-relaxed text-justify font-medium mt-2"></p>
                                 </div>
                             </div>
-                            <div id="categoryBadge" class="h-8 w-8 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-md">C</div>
-                        </div>
 
-                        <!-- 1. Data Metrics -->
-                        <div id="dataMetricsBox" class="data-metric-box">
-                            <div class="flex items-center mb-2 font-bold uppercase tracking-wider text-[10px]">
-                                <svg class="w-3 h-3 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                关键数据表现 (Market Performance)
-                            </div>
-                            <p id="dataMetrics" class="opacity-90"></p>
-                        </div>
-
-                        <!-- 2. User Experience -->
-                        <div>
-                            <span class="detail-label">用户画像与体验 (User Persona & Journey)</span>
-                            <p id="userExp" class="text-xs text-gray-600 leading-relaxed text-justify font-medium"></p>
-                        </div>
-
-                        <!-- 3. Case Study -->
-                        <div id="caseBox" class="case-study-box">
-                            <div class="flex items-center mb-3">
-                                <span class="text-lg mr-2">💡</span>
-                                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-900">深度运营/版本复盘 (Case Study)</span>
-                            </div>
-                            <h4 id="caseTitle" class="text-sm font-bold text-gray-800 mb-2 border-b border-gray-100 pb-2"></h4>
-                            <p id="caseContent" class="text-xs text-gray-700 leading-relaxed text-justify"></p>
-                        </div>
-
-                        <!-- 4. PM Insight -->
-                        <div>
-                            <span class="detail-label">产品底层逻辑拆解 (Product Logic)</span>
-                            <div class="space-y-4">
-                                <div class="bg-gray-50 p-4 rounded-lg border-l-2 border-primary">
-                                    <span class="block text-[10px] font-bold text-primary mb-1.5 uppercase">核心循环 (Core Loop)</span>
-                                    <p id="pmCoreLoop" class="text-xs text-gray-600 leading-relaxed"></p>
+                            <!-- Tab 2: Mechanics & Competitors -->
+                            <div id="detail-tab-mechanics" class="space-y-6 hidden animate-fade-in">
+                                <div>
+                                    <span class="detail-label">产品底层逻辑拆解 (Product Logic)</span>
+                                    <div class="space-y-4 mt-2">
+                                        <div class="bg-gray-50 p-4 rounded-lg border-l-2 border-primary">
+                                            <span class="block text-[10px] font-bold text-primary mb-1.5 uppercase">核心循环 (Core Loop)</span>
+                                            <p id="pmCoreLoop" class="text-xs text-gray-600 leading-relaxed"></p>
+                                        </div>
+                                        <div class="bg-gray-50 p-4 rounded-lg border-l-2 border-analysis">
+                                            <span class="block text-[10px] font-bold text-analysis mb-1.5 uppercase">商业化设计 (Monetization)</span>
+                                            <p id="pmMonetization" class="text-xs text-gray-600 leading-relaxed"></p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="bg-gray-50 p-4 rounded-lg border-l-2 border-analysis">
-                                    <span class="block text-[10px] font-bold text-analysis mb-1.5 uppercase">商业化设计 (Monetization)</span>
-                                    <p id="pmMonetization" class="text-xs text-gray-600 leading-relaxed"></p>
+                                <div id="compAnalysisSection" class="analysis-card p-5 shadow-sm">
+                                    <div class="flex items-center mb-4">
+                                        <span class="text-lg mr-2">⚔️</span>
+                                        <h4 class="text-[10px] font-bold uppercase tracking-wider text-sky-700">竞品差异化与壁垒 (Competition)</h4>
+                                    </div>
+                                    <div id="compList" class="space-y-3 mb-4"></div>
+                                    <div class="bg-white/60 p-3 rounded border border-sky-100">
+                                        <span class="text-[10px] font-bold text-sky-600 block mb-1 uppercase">核心壁垒 (The Moat)</span>
+                                        <p id="compDiff" class="text-xs text-gray-700 leading-relaxed font-medium"></p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- 5. Competitor Analysis -->
-                        <div id="compAnalysisSection" class="analysis-card p-5 shadow-sm">
-                            <div class="flex items-center mb-4">
-                                <span class="text-lg mr-2">⚔️</span>
-                                <h4 class="text-[10px] font-bold uppercase tracking-wider text-sky-700">竞品差异化与壁垒 (Competition)</h4>
+                            <!-- Tab 3: Case Study & Optimization -->
+                            <div id="detail-tab-case" class="space-y-6 hidden animate-fade-in">
+                                <div id="caseBox" class="case-study-box">
+                                    <div class="flex items-center mb-3">
+                                        <span class="text-lg mr-2">💡</span>
+                                        <span class="text-[10px] font-bold uppercase tracking-wider text-gray-900">深度运营/版本复盘 (Case Study)</span>
+                                    </div>
+                                    <h4 id="caseTitle" class="text-sm font-bold text-gray-800 mb-2 border-b border-gray-100 pb-2"></h4>
+                                    <p id="caseContent" class="text-xs text-gray-700 leading-relaxed text-justify"></p>
+                                </div>
+                                <div class="opt-box">
+                                    <div class="flex items-center mb-2 text-yellow-700">
+                                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                        <span class="text-[10px] font-bold uppercase tracking-wider">若我是PM：优化建议 (Optimization)</span>
+                                    </div>
+                                    <p id="optimization" class="text-xs text-gray-800 leading-relaxed font-medium"></p>
+                                </div>
                             </div>
-                            <div id="compList" class="space-y-3 mb-4"></div>
-                            <div class="bg-white/60 p-3 rounded border border-sky-100">
-                                <span class="text-[10px] font-bold text-sky-600 block mb-1 uppercase">核心壁垒 (The Moat)</span>
-                                <p id="compDiff" class="text-xs text-gray-700 leading-relaxed font-medium"></p>
-                            </div>
-                        </div>
 
-                        <!-- 6. Optimization -->
-                        <div class="opt-box">
-                            <div class="flex items-center mb-2 text-yellow-700">
-                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                <span class="text-[10px] font-bold uppercase tracking-wider">若我是PM：优化建议 (Optimization)</span>
-                            </div>
-                            <p id="optimization" class="text-xs text-gray-800 leading-relaxed font-medium"></p>
                         </div>
                         
-                        <div class="h-8"></div>
+                        <div class="h-2"></div>
                     </div>
                 </div>
             </section>
@@ -424,13 +552,20 @@
     <script>
         // --- GLOBAL VIEW SWITCHER ---
         function switchGlobalView(viewName) {
-            // Update Tab UI
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`tab-${viewName}`).classList.add('active');
+            // Update Toggle State via Class
+            const navContainer = document.getElementById('navContainer');
+            if (viewName === 'research') {
+                navContainer.classList.add('show-research');
+            } else {
+                navContainer.classList.remove('show-research');
+            }
 
             // Toggle Sections
             document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
             document.getElementById(`view-${viewName}`).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // ================= PART 1: GAME DATA & LOGIC =================
@@ -979,7 +1114,8 @@
         function initGameMatrix() {
             const ctx = document.getElementById('gameMatrixChart').getContext('2d');
             const dataPoints = gamesData.map(game => ({
-                x: game.depth, y: game.narrative, r: Math.max(5, Math.min(game.hours / 1.5, 30)), gameInfo: game
+                // Adjusted max radius to 25 to fit better in 50% width
+                x: game.depth, y: game.narrative, r: Math.max(4, Math.min(game.hours / 1.5, 25)), gameInfo: game
             }));
 
             // Store chart instance in global variable
@@ -1008,10 +1144,10 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    layout: { padding: 15 },
+                    layout: { padding: 10 }, // Reduced padding slightly
                     scales: {
-                        x: { title: { display: true, text: '玩法机制深度 (Depth) →', color: '#94a3b8', font: {size: 11} }, min: 0, max: 100, grid: { display: false } },
-                        y: { title: { display: true, text: '叙事/社交浓度 (Narrative) →', color: '#94a3b8', font: {size: 11} }, min: 0, max: 100, grid: { display: false } }
+                        x: { title: { display: true, text: '玩法机制深度 (Depth) →', color: '#94a3b8', font: {size: 10} }, min: 0, max: 100, grid: { display: false } },
+                        y: { title: { display: true, text: '叙事/社交浓度 (Narrative) →', color: '#94a3b8', font: {size: 10} }, min: 0, max: 100, grid: { display: false } }
                     },
                     plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(context) { return context.raw.gameInfo.name; } } } },
                     onClick: (e, elements) => { if (elements.length > 0) updateDetailPanel(gamesData[elements[0].index]); }
@@ -1030,18 +1166,19 @@
 
             for (const [key, config] of Object.entries(groups)) {
                 const groupSection = document.createElement('div');
-                groupSection.className = 'mb-2';
+                groupSection.className = 'mb-1.5'; // Reduced margins
                 const title = document.createElement('h5');
-                title.className = `text-[10px] font-bold uppercase tracking-wider mb-2 ${config.color} opacity-80`;
+                title.className = `text-[9px] font-bold uppercase tracking-wider mb-1.5 ${config.color} opacity-80`;
                 title.textContent = config.title;
                 groupSection.appendChild(title);
 
                 const btnGrid = document.createElement('div');
-                btnGrid.className = 'flex flex-wrap gap-2';
+                btnGrid.className = 'flex flex-wrap gap-1.5'; // Reduced gap
                 
                 gamesData.filter(g => g.category === key).forEach(game => {
                     const btn = document.createElement('button');
-                    btn.className = `game-tag-btn px-3 py-1 rounded-full border bg-white text-gray-600 hover:${config.bg} hover:${config.color} whitespace-nowrap`;
+                    // Smaller button style
+                    btn.className = `game-tag-btn px-2.5 py-0.5 rounded-full border bg-white text-gray-600 hover:${config.bg} hover:${config.color} whitespace-nowrap text-[10px]`;
                     btn.textContent = game.name;
                     btn.dataset.gameId = game.id; 
                     btn.onclick = () => { 
@@ -1078,12 +1215,40 @@
             else clickedBtn.classList.add('active-casual');
         }
 
+        // New function to handle inner tab switching
+        function switchDetailTab(tabName) {
+            // 1. Reset Buttons
+            ['market', 'mechanics', 'case'].forEach(t => {
+                const btn = document.getElementById(`tab-btn-${t}`);
+                const content = document.getElementById(`detail-tab-${t}`);
+                
+                // Style Reset
+                btn.classList.remove('bg-white', 'shadow-sm', 'text-gray-900');
+                btn.classList.add('text-gray-500');
+                
+                // Content Hide
+                content.classList.add('hidden');
+            });
+
+            // 2. Activate Selected
+            const activeBtn = document.getElementById(`tab-btn-${tabName}`);
+            const activeContent = document.getElementById(`detail-tab-${tabName}`);
+            
+            activeBtn.classList.remove('text-gray-500');
+            activeBtn.classList.add('bg-white', 'shadow-sm', 'text-gray-900');
+            
+            activeContent.classList.remove('hidden');
+        }
+
         function updateDetailPanel(game) {
             currentGameName = game.name;
             document.getElementById('emptyState').classList.add('hidden');
             document.getElementById('contentState').classList.remove('hidden');
             document.getElementById('contentState').classList.add('flex');
             
+            // Reset to first tab when opening new game
+            switchDetailTab('market');
+
             document.getElementById('gameName').textContent = game.name;
             document.getElementById('gameTag').textContent = game.tag;
             document.getElementById('gameHours').textContent = `投入时长权重: ${game.hours}`;
@@ -1142,7 +1307,3 @@
     </script>
 </body>
 </html>
-
-
-
-
